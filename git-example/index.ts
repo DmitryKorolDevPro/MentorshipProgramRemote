@@ -1,2 +1,1 @@
-// code example one
-// code example two
+// some FE code
