@@ -51,4 +51,16 @@ const cVariable = 55;
 const cVariable = 66; // Error: Uncaught SyntaxError: Identifier 'cVariable' has already been declared
 console.log('same error as when declared by let'); 
 
-// 1.2 ......
+// 1.2 
+
+var vVariable = 11;
+var vVariable = 22;
+console.log('everything works correctly');
+
+let lVariable = 33;
+let lVariable = 44; // Error: Uncaught SyntaxError: Identifier 'lVariable' has already been declared
+console.log('code execution will not reach this point, there will be an error earlier'); 
+
+const cVariable = 55;
+const cVariable = 66; // Error: Uncaught SyntaxError: Identifier 'cVariable' has already been declared
+console.log('same error as when declared by let'); 
