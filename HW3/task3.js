@@ -19,16 +19,16 @@ sum(1)(3)(7)(); // 11;
 внутри функции промежуточное значение. */
 function sum(a = 0) {
     return a === 0 ? 0 : add; // ternary not.
-
     function add(b) {
-        if (b === undefined) return sum; //???какой должен быть return???
-        return (a += b);
+        if (b === undefined) return a;
+        a += b;
+        return add;
     }
 }
-console.log(sum(2)(1)); //3
+console.log(sum(2)(1)()); //3
 console.log(sum()); //0
-console.log(sum(3)()); //??TypeError????
-console.log(sum(1)(3)(7)()); // ??/TypeError???
+console.log(sum(3)()); //3
+console.log(sum(1)(3)(7)()); //11
 
 //2. Пройтись по дереву и тоже выдать сумму всех элементов дерева. Примерное дерево:
 
