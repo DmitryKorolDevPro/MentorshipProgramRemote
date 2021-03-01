@@ -43,3 +43,27 @@ const menu = [{
     ],
     entity_id: "someId1",
 }];
+
+
+
+
+
+
+[
+  {
+    product_name: "ketchup",
+    tax: 0,
+    subtotal: 1,
+    total: 1,
+    entity_id: "someId3",
+    parent_id: "someId2",
+  },
+  {
+    product_name: "french fries",
+    tax: 0,
+    subtotal: 2,
+    total: 2,
+    entity_id: "someId2",
+    parent_id: "someId1",
+  }
+]
