@@ -157,53 +157,59 @@ items: Array(1)
 //stored spesific user information.
 // for example(you created products collection with nested products inside),
 // by unic product id create list of product_id-product price.
-
 const menu3 = [{
     product_name: "burger menu",
     tax: 0.5,
     subtotal: 4.5,
     total: 5,
     id: "someId1",
-    items: {
+    items: [{
         product_name: "french fries",
         tax: 0,
         subtotal: 2,
         total: 2,
         id: "someId2",
-        parent_id: "someId1",
-        items: {
+        items: [{
             product_name: "ketchup",
             tax: 0,
             subtotal: 1,
             total: 1,
-            id: "someId3",
-            parent_id: "someId2",
-        },
-        items: {
+            id: "someId3"
+        }, {
             product_name: "ketchupchik",
             tax: 0,
             subtotal: 1,
             total: 1,
-            id: "someId3",
-            parent_id: "someId2",
-        },
-        items: {
+            id: "someId3"
+        }, {
             product_name: "ketchup",
             tax: 0,
             subtotal: 1,
             total: 1,
-            id: "someId4",
-            parent_id: "someId2",
-        },
-    },
+            id: "someId4"
+        }]
+    }]
 }];
 
-var myMap = new Map();
-myMap.set(menu3);
-console.log(myMap);
+var menuItems = new Map();
 
-var myMap = getMapNoDublicate(menu3);
+getMapNoDublicate(menu3);
+
 function getMapNoDublicate(data) {
+    for (let i = 0; i < data.length; i++) {
+        menuItems.set(data[i].id, data[i]);//method map.set() - add object if it does not exist (OR)
+        debugger;                          //                 - if it exist then updates element
+        //i can use iy like a checking
+        if (data[i].items && data[i].items.length) {//i check if element 'items' exist(true) and 
+            getMapNoDublicate(data[i].items);//recursively calls for nested 'items'
+        }
+    }
+
+    return false;
+}
+
+console.log(menuItems.keys());
+console.log(menuItems.values());
     // let newMap = new Map();
     // var newMap = menu3.map()
     // return args.reduce((data, level) =>data && data[level], data)
@@ -214,5 +220,5 @@ function getMapNoDublicate(data) {
     //             map.set(data.id, data.name)
     //         }
     // }
-}
+
 // console.log(myMap);
