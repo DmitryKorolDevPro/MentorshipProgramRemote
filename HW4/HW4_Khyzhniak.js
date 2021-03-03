@@ -173,18 +173,10 @@ function task2() {
 
     So I have found and optimized a similar function for my needs.
   */
-<<<<<<< HEAD
-
+ 
   const child6 = deepClone(root);
   child6.name = 'child 6';
   child6.id = '#6';
-=======
-
-  const child6 = deepClone(root);
-  child6.name = 'child 6';
-  child6.id = '#6';
-
->>>>>>> 3411bcdda8ea63f762a11df5f9a53fc23cdf293d
 
   function deepClone(from, to) {
     if (from == null || typeof from != "object") return from;
@@ -195,11 +187,7 @@ function task2() {
 
     to = to || new from.constructor();
 
-<<<<<<< HEAD
     for (let name in from) {
-=======
-    for (var name in from) {
->>>>>>> 3411bcdda8ea63f762a11df5f9a53fc23cdf293d
       to[name] = typeof to[name] == "undefined" ? deepClone(from[name], null) : to[name];
     }
 
@@ -209,11 +197,8 @@ function task2() {
   child5.children.push(child6);
 
   console.log(child6);
-<<<<<<< HEAD
   console.log(child6.children[0].children[0] === root.children[0].children[0]); // false | CLONED WITH NESTED PROPERTIES
-=======
-  console.log(child6.children[0].children[0] === root.children[0].children[0]);// false | CLONED WITH NESTED PROPERTIES
->>>>>>> 3411bcdda8ea63f762a11df5f9a53fc23cdf293d
+
   task3(root);
 } task2();
 
