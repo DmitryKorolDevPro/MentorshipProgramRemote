@@ -214,8 +214,6 @@ function task3(obj) {
     const map = new Map();
 
     function makeFlat(obj) {
-      console.log(obj.id);
-
       if (!map.has(obj.id)) {
         map.set(obj.id, obj.name)
       }
