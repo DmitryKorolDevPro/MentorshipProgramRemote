@@ -174,6 +174,7 @@ function task2() {
     So I have found and optimized a similar function for my needs.
   */
 
+
   const child6 = deepClone(root);
   child6.name = 'child 6';
   child6.id = '#6';
@@ -188,6 +189,7 @@ function task2() {
 
     to = to || new from.constructor();
 
+
     for (var name in from) {
       to[name] = typeof to[name] == "undefined" ? deepClone(from[name], null) : to[name];
     }
@@ -198,7 +200,7 @@ function task2() {
   child5.children.push(child6);
 
   console.log(child6);
-  console.log(child6.children[0].children[0] === root.children[0].children[0]);// false | CLONED WITH NESTED PROPERTIES
+  console.log(child6.children[0].children[0] === root.children[0].children[0]); // false | CLONED WITH NESTED PROPERTIES
   task3(root);
 } task2();
 
