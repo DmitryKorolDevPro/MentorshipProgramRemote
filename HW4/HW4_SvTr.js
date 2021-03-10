@@ -176,7 +176,7 @@ function getMapNoDublicate(data) {
         }
     }
 
-    return false;
+    return data;
 }
 
 console.log(menuItems.keys());
