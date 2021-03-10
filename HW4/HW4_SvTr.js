@@ -20,7 +20,8 @@ sayHh(); //175 good!
 //1.2 
 Math.max(3, 6, 1, 8, 2);//8
 var arrFind = [3, 6, 1, 8, 2];
-Math.max(arrFind);// lose this because Max leads to number array
+Math.max(arrFind);//NaN 
+//somewhat we lose this because Math.max leads to number array
 Math.max.apply(Math, arrFind);
 
 //Object example for ex. 2 / 3
@@ -96,61 +97,25 @@ function copy(mainObj) {
     return objCopy;
 }
 console.log(copy(menu));
-/*
-{0: {…}}
-0: {product_name: "burger menu", tax: 0.5, subtotal: 4.5, total: 5, items: Array(1), …}
-__proto__: Object
- */
+//0: {product_name: "burger menu", tax: 0.5, subtotal: 4.5, total: 5, items: Array(1), …}
 
 
 // 2.2 Spread {... obj}
 var cloneMenu1 = { ...menu };
 console.log(cloneMenu1);
-/**
- {0: {…}}
-0: {product_name: "burger menu", tax: 0.5, subtotal: 4.5, total: 5, items: Array(1), …}
-__proto__: Object
- */
+//0: {product_name: "burger menu", tax: 0.5, subtotal: 4.5, total: 5, items: Array(1), …}
 
 
 //2.3 Object.assign({}, obj)
 const cloneMenu2 = Object.assign({}, menu);
 console.log(cloneMenu2);
-/*
-{0: {…}}
-0: {product_name: "burger menu", tax: 0.5, subtotal: 4.5, total: 5, items: Array(1), …}
-__proto__: Object
-*/
+//0: {product_name: "burger menu", tax: 0.5, subtotal: 4.5, total: 5, items: Array(1), …}
 
 //2.4 JSON cloning
 const cloneMenuJSON = JSON.parse(JSON.stringify(menu))//qwikly but
 //JSON cannot contain functions. This means that not every object can be cloned without loss.
 console.log(cloneMenuJSON);
-/*
-(1) [Object]
-0: Object
-produc t_name: "burger menu"
-tax: 0.5
-subtotal: 4.5
-total: 5
-items: Array(1)
-    0: Object
-    product_name: "french fries"
-    tax: 0
-    subtotal: 2
-    total: 2
-    entity_id: "someId2"
-    parent_id: "someId1"
-    items: Array(1)
-        0: Object
-        product_name: "ketchup"
-        tax: 0
-        subtotal: 1
-        total: 1
-        entity_id: "someId3"
-        parent_id: "someId2"
-        entity_id: "someId1"
-*/
+
 
 // 3. Create tree of nested objects
 // Use objects structure from example 2, generate flat Map set (key-value), here will be 
@@ -158,7 +123,7 @@ items: Array(1)
 // for example(you created products collection with nested products inside),
 // by unic product id create list of product_id-product price.
 const menu3 = [{
-    product_name: "burger menu",
+    product_name: "burger menu3",
     tax: 0.5,
     subtotal: 4.5,
     total: 5,
@@ -176,7 +141,7 @@ const menu3 = [{
             total: 1,
             id: "someId3"
         }, {
-            product_name: "ketchupchik",
+            product_name: "ketchup_two",
             tax: 0,
             subtotal: 1,
             total: 1,
@@ -187,6 +152,12 @@ const menu3 = [{
             subtotal: 1,
             total: 1,
             id: "someId4"
+        }, {
+            product_name: "ketchup_three",
+            tax: 0,
+            subtotal: 1,
+            total: 1,
+            id: "someId3"
         }]
     }]
 }];
@@ -198,10 +169,10 @@ getMapNoDublicate(menu3);
 function getMapNoDublicate(data) {
     for (let i = 0; i < data.length; i++) {
         menuItems.set(data[i].id, data[i]);//method map.set() - add object if it does not exist (OR)
-        debugger;                          //                 - if it exist then updates element
-        //i can use iy like a checking
-        if (data[i].items && data[i].items.length) {//i check if element 'items' exist(true) and 
-            getMapNoDublicate(data[i].items);//recursively calls for nested 'items'
+        //                                                    - if it exist then updates element
+        //i can use it like a checking
+        if (data[i].items) {
+            getMapNoDublicate(data[i].items);
         }
     }
 
@@ -210,15 +181,3 @@ function getMapNoDublicate(data) {
 
 console.log(menuItems.keys());
 console.log(menuItems.values());
-    // let newMap = new Map();
-    // var newMap = menu3.map()
-    // return args.reduce((data, level) =>data && data[level], data)
-    //
-    // for (var i = 0; i < data.length; i++) {
-    //    for (var j = 0; j < data.length; j++) {
-    //     if (data[i].id == data[j].id) {
-    //             map.set(data.id, data.name)
-    //         }
-    // }
-
-// console.log(myMap);
