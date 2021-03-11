@@ -1,7 +1,7 @@
 // 1. Iterative style
 log('--- TASK #1 | IMPERATIVE STYLE ---');
 
-function imperativeStyle() {
+function imperativeStyleExample() {
   // We have an array containing the year of birth of some people, and we need to create an array that will contain their age in 2020
   const birthDates = [2001, 2000, 1992, 1969, 2010];
   const howOldIn2020 = [];
@@ -21,13 +21,13 @@ function imperativeStyle() {
     { name: 'Matthew', age: 60},
   ];
 
-  const adultGroupOfPeople = [];
+  const adultPartOfGroup = [];
 
   for (let i = 0; i < groupOfPeople.length; i++) {
-    if (groupOfPeople[i].age >= 18) adultGroupOfPeople.push(groupOfPeople[i]);
+    if (groupOfPeople[i].age >= 18) adultPartOfGroup.push(groupOfPeople[i]);
   }
 
-  console.log(adultGroupOfPeople); // [{ name: 'Dmytro', age: 19}, { name: 'Andrew', age: 21}, { name: 'Matthew', age: 60}]
+  console.log(adultPartOfGroup); // [{ name: 'Dmytro', age: 19}, { name: 'Andrew', age: 21}, { name: 'Matthew', age: 60}]
 
   // Let's say we have an array of numbers. We need to calculate the sum of its elements.
   const someNumbers = [10, 20, 30, 50, 100];
@@ -45,7 +45,6 @@ function imperativeStyle() {
   // Suppose we have an array of strings, and we would like to create an array with numbers on its basis,
   // each of which represents the length of a string stored in some element of the original array.
   
-  const getLength = str => str.length; // callback for our map;
   const someStrings = ['hi', 'yup', 'form', 'random', 'x']; // array of strings
 
   someStrings.customMap = function (callback) {
@@ -58,14 +57,14 @@ function imperativeStyle() {
     return result;
   }
 
-  console.log(someStrings.customMap(getLength)); // [2, 3, 4, 6, 1]
+  console.log(someStrings.customMap(str => str.length)); // [2, 3, 4, 6, 1]
 }
-imperativeStyle();
+imperativeStyleExample();
 
 // 2. Applying higher-order functions
-log('--- TASK #1 | DECLARATIVE STYLE ---');
+log('--- DECLARATIVE STYLE EXAMPLE ---');
 
-function declarativeStyle() {
+function declarativeStyleExample() {
   // We have an array containing the year of birth of some people, and we need to create an array that will contain their age in 2020
   const birthDates = [2001, 2000, 1992, 1969, 2010];
 
@@ -82,8 +81,8 @@ function declarativeStyle() {
     { name: 'Matthew', age: 60},
   ];
 
-  const adultGroupOfPeople = groupOfPeople.filter(person => person.age >= 18);
-  console.log(adultGroupOfPeople); // [{ name: 'Dmytro', age: 19}, { name: 'Andrew', age: 21}, { name: 'Matthew', age: 60}]
+  const adultPartOfGroup = groupOfPeople.filter(person => person.age >= 18);
+  console.log(adultPartOfGroup); // [{ name: 'Dmytro', age: 19}, { name: 'Andrew', age: 21}, { name: 'Matthew', age: 60}]
 
   // Let's say we have an array of numbers. We need to calculate the sum of its elements.
   const someNumbers = [10, 20, 30, 50, 100];
@@ -92,18 +91,17 @@ function declarativeStyle() {
 
   // Suppose we have an array of strings, and we would like to create an array with numbers on its basis,
   // each of which represents the length of a string stored in some element of the original array.
-  
   const someStrings = ['hi', 'yup', 'form', 'random', 'x'];
   const lengthsOfStrings = someStrings.map(str => str.length);
   console.log(lengthsOfStrings); // [2, 3, 4, 6, 1]
 }
-declarativeStyle();
+declarativeStyleExample();
 
 log('--- TASK #2 ---');
 // The implementation and usefulness of ideas should be clearly demonstrated: Inheritance, encapsulation, polymorphism (as much as possible)
 // Implement in two ways. With the help of the ES6 classes and with the help of prototypes.
 
-log('--- TASK #2 | Classes ---');
+log('--- Classes ---');
 function newScopeForTask2() {
   // Write an abstract class
   class User {
@@ -117,9 +115,9 @@ function newScopeForTask2() {
       this.nickname = nickname ?? 'Guest';
     }
 
-    login = function() {};
-    logout = function() {};
-    writeInChat = function() {}; // Polymorphism*
+    login() {};
+    logout() {};
+    writeInChat() {}; // Polymorphism*
   }
 
   // Create two classes using inheritance (not abstract)
@@ -143,15 +141,15 @@ function newScopeForTask2() {
       super(nickname);
     }
 
-    login = function() {
+    login() {
       this.isLogged = true;
     };
 
-    logout = function() {
+    logout() {
       this.isLogged = false;
     };
 
-    writeInChat = function(text) { // Polymorphism*
+    writeInChat(text) { // Polymorphism*
       console.log(text);
     };
   }
@@ -164,12 +162,36 @@ function newScopeForTask2() {
       super(nickname);
     }
 
-    writeInChat = function(text) { // Polymorphism*
+    writeInChat(text) { // Polymorphism*
       alert(`*** ADMIN ***: ${text}`);
     };
 
-    deleteMessages = function(id) {
+    deleteMessages(id) {
       console.log(`Deleted message #${id}`);
+    }
+
+    openNewBalance() {
+      let balance = 0; // Encapsulation**
+
+      function addFunds(amount) {
+        if (amount <= 0) return;
+        balance += amount;
+      }
+
+      function getFunds(amount) {
+        if (amount <= 0) return;
+        balance += amount;
+      }
+
+      function showBalance() {
+        return balance;
+      }
+
+      return {
+        addFunds,
+        getFunds,
+        showBalance
+      }
     }
   }
 
@@ -182,14 +204,19 @@ function newScopeForTask2() {
 
   const adminDmytro = new Administrator('Dmytro');
   console.log(adminDmytro);
+
+  let dmytroUsdWallet = adminDmytro.openNewBalance();
+  dmytroUsdWallet.addFunds(5);
+  dmytroUsdWallet.addFunds(5);
+  dmytroUsdWallet.addFunds(5);
+
+  console.log(dmytroUsdWallet.balance) // undefined
+
+  console.log(dmytroUsdWallet.showBalance()); // 15 | Encapsulation**
 }
 newScopeForTask2();
 
-/*
-  INCAPS - get, set
-*/
-
-log('--- TASK #2 | Prototypes ---');
+log('--- Prototypes ---');
 // Write an abstract class
 function User() {
   this.nickname = null;
@@ -274,9 +301,9 @@ console.log(getFullName('Dmytro', 'Khyzhniak')); // 'Dmytro Khyzhniak'
 
 // Pure functions
 function strHider(str) {
-  return str.replace(/\w/g, '*');
+  return str.replace(/\w/g, '*'); // no side-effects
 }
-strHider('Dmytro');
+strHider('Dmytro'); // '******'
 
 // Function side effect
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -285,17 +312,15 @@ function getHalf(arr) {
   return arr.splice(0, arr.length / 2);
 }
 getHalf(numbers);
-
 console.log(numbers); // [6, 7, 8, 9, 10] | Our array was changed with splice()
 
 // Unchanging state
 let userName = 'Dmytro';
 userName[0] = 'X';
-
 console.log(userName); // 'Dmytro' | Immutable
 
 let newUserName = 'X' + userName.slice(1);
-console.log(newUserName); // Xmytro | We can copy only
+console.log(newUserName); // Xmytro | But we still can copy
 
 // Shared State
 let counter = 10;
