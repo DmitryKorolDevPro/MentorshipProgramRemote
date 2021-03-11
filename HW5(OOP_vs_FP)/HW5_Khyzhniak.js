@@ -107,13 +107,14 @@ log('--- TASK #2 | Classes ---');
 function newScopeForTask2() {
   // Write an abstract class
   class User {
+    id = null;
+    avatar = null;
+    canWrite = null;
+    isLogged = null;
+    isAdmin = null;
+
     constructor(nickname) {
       this.nickname = nickname ?? 'Guest';
-      this.id = null;
-      this.avatar = null;
-      this.canWrite = null;
-      this.isLogged = null;
-      this.isAdmin = null;
     }
 
     login = function() {};
@@ -123,23 +124,23 @@ function newScopeForTask2() {
 
   // Create two classes using inheritance (not abstract)
   class Guest extends User { // Inheritance
+    isLogged = false;
+    canWrite = false;
+    
     constructor(nickname) {
       super(nickname);
-
-      this.isLogged = false;
-      this.canWrite = false;
     }
   }
 
   class RegistredUser extends Guest { // Inheritance
+    id = 'some id';
+    avatar = 'some avatar';
+    canWrite = true;
+    isLogged = false;
+    isAdmin = false;
+    
     constructor(nickname) {
       super(nickname);
-
-      this.id = 'some id';
-      this.avatar = 'some avatar';
-      this.canWrite = true;
-      this.isLogged = false;
-      this.isAdmin = false;
     }
 
     login = function() {
@@ -156,11 +157,11 @@ function newScopeForTask2() {
   }
 
   class Administrator extends RegistredUser { // Inheritance
+    canWrite = true;
+    isAdmin = true;
+    
     constructor(nickname) {
       super(nickname);
-
-      this.canWrite = true;
-      this.isAdmin = true;
     }
 
     writeInChat = function(text) { // Polymorphism*
