@@ -1,6 +1,4 @@
-// 1_______ Напишите два решения для каждой проблемы.
-//   - в итеративном стиле (без функций высшего порядка)
-//   - применение функций высшего порядка
+// 1
 // Write two solutions for each problem.
 // _.1 in an iterative style (no higher-order functions)
 // _.2 applying higher-order functions
