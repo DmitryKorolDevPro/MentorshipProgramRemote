@@ -24,7 +24,9 @@ function imperativeStyleExample() {
   const adultPartOfGroup = [];
 
   for (let i = 0; i < groupOfPeople.length; i++) {
-    if (groupOfPeople[i].age >= 18) adultPartOfGroup.push(groupOfPeople[i]);
+    if (groupOfPeople[i].age >= 18) {
+      adultPartOfGroup.push(groupOfPeople[i]);
+    }
   }
 
   console.log(adultPartOfGroup); // [{ name: 'Dmytro', age: 19}, { name: 'Andrew', age: 21}, { name: 'Matthew', age: 60}]
@@ -334,13 +336,42 @@ func2();
 console.log(counter); // 12 | Both functions are working with the same counter
    
 // Closures
-function pow(base) {
-  return function(exp) {
-      return base ** exp;
+function visitorsSaver() {
+  const arrayOfVisitors = []; // will be saved in the closure
+
+  function addVisitors(...visitors) {
+    arrayOfVisitors.push(...visitors);
+  }
+
+  function showVisitors() {
+    for (let visitor of arrayOfVisitors) {
+      console.log(`${visitor.name} - ${visitor.ip}`);
+    }
+  }
+
+  return {
+    addVisitors,
+    showVisitors
   }
 }
 
-console.log(pow(2)(2)) // 4
+const newSaver = visitorsSaver();
+newSaver.addVisitors(
+  {name: 'Polina', ip:'192.169.100.101'},
+  {name: 'Dmytro', ip:'192.172.98.102'},
+  {name: 'Sofya', ip:'193.170.120.100'},
+);
+newSaver.showVisitors(); // 'Polina - 192.169.100.101', 'Dmytro - 192.172.98.102' ...
+
+const anotherSaver = visitorsSaver(); // Let`s make another saver
+anotherSaver.addVisitors(
+  {name: 'not a Polina', ip:'0.0.0.1'},
+  {name: 'not a Dmytro', ip:'0.0.0.2'},
+  {name: 'not a Sofya', ip:'0.0.0.3'},
+);
+anotherSaver.showVisitors(); // 'not a Polina - 0.0.0.1, 'not a Dmytro - 0.0.0.2' ...
+// Thanks to closures we can create and save independent variables
+
 // Recursion
 function getSum(num) {
   return num <= 0 ? num : num + getSum(num - 1);
