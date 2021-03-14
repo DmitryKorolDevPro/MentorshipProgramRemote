@@ -107,113 +107,112 @@ log('--- Classes ---');
 function newScopeForTask2() {
   // Write an abstract class
   class User {
+    nickname = null;
     id = null;
     avatar = null;
     canWrite = null;
     isLogged = null;
     isAdmin = null;
 
-    constructor(nickname) {
-      this.nickname = nickname ?? 'Guest';
-    }
-
-    login() {};
-    logout() {};
-    writeInChat() {}; // Polymorphism*
+    login() {}
+    logout() {}
+    writeInChat() {} // Polymorphism*
   }
-
+  
   // Create two classes using inheritance (not abstract)
   class Guest extends User { // Inheritance
     isLogged = false;
     canWrite = false;
-    
-    constructor(nickname) {
-      super(nickname);
+  
+    constructor() {
+      super();
+      this.nickname = 'Guest';
     }
   }
-
+  
   class RegistredUser extends Guest { // Inheritance
-    id = 'some id';
-    avatar = 'some avatar';
+    id = "some id"; 
+    avatar = "some avatar";
     canWrite = true;
     isLogged = false;
     isAdmin = false;
-    
-    constructor(nickname) {
-      super(nickname);
-    }
 
+    constructor(nickname) {
+      super();
+      this.nickname = nickname;
+    }
+  
     login() {
       this.isLogged = true;
-    };
-
+    }
+  
     logout() {
       this.isLogged = false;
-    };
-
-    writeInChat(text) { // Polymorphism*
-      console.log(text);
-    };
+    }
+  
+    writeInChat(text) {
+      console.log(text); // Polymorphism*
+    }
   }
-
+  
   class Administrator extends RegistredUser { // Inheritance
     canWrite = true;
     isAdmin = true;
-    
+  
     constructor(nickname) {
       super(nickname);
     }
-
-    writeInChat(text) { // Polymorphism*
-      alert(`*** ADMIN ***: ${text}`);
-    };
-
+  
+    writeInChat(text) {
+      alert(`*** ADMIN ***: ${text}`); // Polymorphism*
+    }
+  
     deleteMessages(id) {
       console.log(`Deleted message #${id}`);
     }
-
+  
     openNewBalance() {
       let balance = 0; // Encapsulation**
-
+  
       function addFunds(amount) {
         if (amount <= 0) return;
         balance += amount;
       }
-
+  
       function getFunds(amount) {
         if (amount <= 0) return;
         balance += amount;
       }
-
+  
       function showBalance() {
         return balance;
       }
-
+  
       return {
         addFunds,
         getFunds,
         showBalance
-      }
+      };
     }
   }
-
+  
   // Create instances of these classes
   const visitor = new Guest();
   console.log(visitor);
-
-  const user = new RegistredUser('Anthony');
+  
+  const user = new RegistredUser("Anthony");
   console.log(user);
-
-  const adminDmytro = new Administrator('Dmytro');
+  
+  const adminDmytro = new Administrator("Dmytro");
   console.log(adminDmytro);
-
+  
   let dmytroUsdWallet = adminDmytro.openNewBalance();
   dmytroUsdWallet.addFunds(5);
   dmytroUsdWallet.addFunds(5);
   dmytroUsdWallet.addFunds(5);
-
-  console.log(dmytroUsdWallet.balance) // undefined
-
+  
+  console.log(dmytroUsdWallet.balance); // undefined
+  
   console.log(dmytroUsdWallet.showBalance()); // 15 | Encapsulation**
 }
 newScopeForTask2();
