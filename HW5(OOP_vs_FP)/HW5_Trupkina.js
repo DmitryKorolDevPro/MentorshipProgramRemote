@@ -207,7 +207,7 @@ student2.getAdvice;         //Lana were inspired...
 mentor.startVacation();     //I'm Dmitry! I'm on vacation! :D
 
 
-//__________ prototypes__________
+//_____________________ prototypes______________________
 function Company2() { //abstract class (constructor)
     this.name = null;
     this.vacation = false;
@@ -215,34 +215,54 @@ function Company2() { //abstract class (constructor)
 Company2.prototype.startVacation = function () { };
 Company2.prototype.finishVacation = function () { };
 
-function PersonnelDep2(params) { //Inheritance Class 
+function PersonnelDep2(name, vacation) { //Inheritance Class from Company2
     Company2.call(this);
-
+    this.name = name;
+    this.vacation = vacation;
 }
-function Students2(params) { //Inheritance Class 
-    Company2.call(this);
-    this.task = params.name;
-    this.name = params.t;
-    this.vacation = params;
-}
-Students2.prototype.startVacation = function () {
+PersonnelDep2.prototype.startVacation = function () {//Polymorphism
     this.vacation = true;
-    console.log(`I'm on holiday! :D`);
+    console.log(`I'm ${this.name}! I'm on vacation! :D`)
+}
+PersonnelDep2.prototype.finishVacation = function () {
+    this.vacation = false;
+    console.log(`${this.name} at work...`);
+}
+PersonnelDep2.prototype.getAdvice = function () {//encapsulation(not work)
+    let getInspirit = `${this.name} were inspired...`
+    return console.log(getInspirit);
+}
+function Students2(name, task, vacation) { //Inheritance Class from PersonnelDep2
+    PersonnelDep2.call(this, task);
+
+    this.name = name;
+    this.task = task;
+    this.vacation = vacation;
+}
+Students2.prototype.startVacation = function () {//Polymorphism
+    this.vacation = true;
+    console.log(`I'm ${this.name}! I'm on holiday! :D`);
 }
 Students2.prototype.finishVacation = function () {
     this.vacation = false;
-    console.log(`holiday is done :(`);
+    console.log(`holiday is done :( ${this.name} at work...`);
 }
-Students2.prototype.homeworkCheck = function () {
+Students2.prototype.homeworkCheck = function (options) {
     let needTask = 0;
     this.task = options;
-    console.log('Need to do ' + (needTask = 14 - options) + ' task');
+    console.log('Need to do ' + (needTask = 14 - options) + ' task for ' + this.name);
 }
 const student1_2 = new Students2('Dima', 0, false);
 const student2_2 = new Students2('Lana', 0, false);
 const mentor2 = new PersonnelDep2('Dmitry', false,);
+//___________
 
-console.log(student1_2);//Students2 {name: "Dima", vacation: "Dima", task: "Dima"}
+student1_2.startVacation();   // I'm Dima! I'm on holiday! :D
+student2_2.finishVacation();  //holiday is done :( Lana at work...
+student2_2.homeworkCheck(5);  //Need to do 9 task for Lana
+student2_2.getAdvice;         //Lana were inspired... (not work)
+mentor2.startVacation();     //I'm Dmitry! I'm on vacation! :D
+
 //_________________________________________________
 // Functional programming task:
 // Function side effect 
