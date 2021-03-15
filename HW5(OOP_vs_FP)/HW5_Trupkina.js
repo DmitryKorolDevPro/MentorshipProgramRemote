@@ -255,7 +255,6 @@ Students2.prototype.homeworkCheck = function (options) {
 const student1_2 = new Students2('Dima', 0, false);
 const student2_2 = new Students2('Lana', 0, false);
 const mentor2 = new PersonnelDep2('Dmitry', false,);
-//___________
 
 student1_2.startVacation();   // I'm Dima! I'm on holiday! :D
 student2_2.finishVacation();  //holiday is done :( Lana at work...
