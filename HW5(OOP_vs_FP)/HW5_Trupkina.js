@@ -110,6 +110,7 @@ const sum = arrNum.reduce(function (accumulator, currentValue) { //.reduce(funct
 console.log(sum);//25
 
 //   4.
+//4.1
 const arrPeopleName = ['Pedro', 'Leonardo', 'Anderson', 'Millie', 'Harry'];
 
 function findNameLength_hof(arr, fn) {
@@ -124,9 +125,14 @@ function retName(item) {
 }
 const arrMap = findNameLength_hof(arrPeopleName, retName);
 console.log(arrMap);
+//4.2
+const mapNameLength = arrPeopleName.map(function (name) {
+    return name.length;
+});
+console.log(mapNameLength);//[5, 8, 8, 6, 5]
 
 
-//  ______________Task for working with OOP:_______________
+// Task for working with OOP:
 // ES6
 class Company {
 
@@ -142,15 +148,15 @@ class PersonnelDep extends Company {
 
     startVacation() {//Polymorphism shows which version of method should be run
         this.vacation = true;
-        console.log(`I'm on vacation! :D`) //
+        console.log(`I'm ${this.name}! I'm on vacation! :D`) //
     }
     finishVacation() {
         this.vacation = false;
-        console.log(`I'm at work...`);
+        console.log(`${this.name} at work...`);
     }
 
     get getAdvice() {//encapsulation
-        let getInspirit = 'you were inspired...'
+        let getInspirit = `${this.name} were inspired...`
         return console.log(getInspirit);//you were inspired...
 
     }
@@ -166,17 +172,17 @@ class Students extends PersonnelDep {
     startVacation() {//New method will clear parenth if i want to call parenth method should be used super.makeVacation()
         this.vacation = true;
         //super.startVacation();
-        console.log(`I'm on holiday! :D`);
+        console.log(`I'm ${this.name}! I'm on holiday! :D`);
     }
     finishVacation() {
         this.vacation = false;
-        console.log(`holiday is done :(`);
+        console.log(`holiday is done :( ${this.name} at work...`);
     }
 
     homeworkCheck(options) {
         let needTask = 0;
         this.task = options;
-        console.log('Need to do ' + (needTask = 14 - options) + ' task');
+        console.log('Need to do ' + (needTask = 14 - options) + ' task for ' + this.name);
     }
 }
 const student1 = new Students({
@@ -194,43 +200,106 @@ const mentor = new PersonnelDep({
     vacation: false,
 })
 
-student1.startVacation();// .startVacation(false) - (holiday is done :( )
-//                          .startVacation(true) - (I'm on holiday! :D)
-student1.getAdvice();
+student1.startVacation();   // I'm Dima! I'm on holiday! :D
+student2.finishVacation();  //holiday is done :( Lana at work...
+student2.homeworkCheck(5);  //Need to do 9 task for Lana
+student2.getAdvice;         //Lana were inspired...
+mentor.startVacation();     //I'm Dmitry! I'm on vacation! :D
 
-// prototypes
 
+//__________ prototypes__________
+function Company2() { //abstract class (constructor)
+    this.name = null;
+    this.vacation = false;
+}
+Company2.prototype.startVacation = function () { };
+Company2.prototype.finishVacation = function () { };
 
+function PersonnelDep2(params) { //Inheritance Class 
+    Company2.call(this);
 
-//  ________ Functional programming task________
+}
+function Students2(params) { //Inheritance Class 
+    Company2.call(this);
+    this.task = params.name;
+    this.name = params.t;
+    this.vacation = params;
+}
+Students2.prototype.startVacation = function () {
+    this.vacation = true;
+    console.log(`I'm on holiday! :D`);
+}
+Students2.prototype.finishVacation = function () {
+    this.vacation = false;
+    console.log(`holiday is done :(`);
+}
+Students2.prototype.homeworkCheck = function () {
+    let needTask = 0;
+    this.task = options;
+    console.log('Need to do ' + (needTask = 14 - options) + ' task');
+}
+const student1_2 = new Students2('Dima', 0, false);
+const student2_2 = new Students2('Lana', 0, false);
+const mentor2 = new PersonnelDep2('Dmitry', false,);
 
-// Higher-order functions +
-// First class functions +
-// Pure functions +
-// Function side effect +
-// Unchanging state
-// Shared State
-// Closures
-// Recursion
+console.log(student1_2);//Students2 {name: "Dima", vacation: "Dima", task: "Dima"}
+//_________________________________________________
+// Functional programming task:
+// Function side effect 
+function randomNumber(min, max) {// function will be returned as a result different values
+    return Math.floor(Math.random() * (max - min) + min);
+}
+console.log(randomNumber(1, 10));
+
 // Partial function application
-//First-Class and Pure function
-const timeMinut = function (min) {
+const multiply = function (x, y) {
+    return x * y;
+}
+const multiply2 = multiply.bind(null, 2)// if will be passed argument 'null', the context will not bound with 'this'
+// this mean that value null(x = thisArg) & 2(y = arg1)
+console.log(multiply2(3)) // 6
+console.log(multiply2(4)) // 8
+console.log(multiply2(5)) // 10
+
+//First-Class & Pure function
+let timeMinut = function (min) {
     return min * 60;
 };
-//Higher-order Functions
-function startTimer(timeMinut) {
-    seconds = timeMinut % 60 // got second
-    minutes = timeMinut / 60 % 60 // got minute
-    hour = timeMinut / 60 / 60 % 60 // got hour
-    // if time gone...
-    if (timeMinut <= 0) {
-        clearInterval(timer);
-        alert('Time is over.');
-    } else {
-        // time output
-        let strTimer = `${Math.trunc(hour)}:${Math.trunc(minutes)}:${seconds}`;
-        console.log(strTimer);
-    }
-    --timeMinut; // decrement for timer
+
+//Higher-order Functions & Shared State (use with timeMinut())
+function greeting(nameInput) {
+    alert('Hello ' + nameInput + ' you have ' + timeMinut(1) + ' seconds to finish your homework');// timeMinut exist in general scope
 }
-//timer = setInterval(, 1000);
+function userInput(callback) {
+    let nameInput = prompt('Please enter your name:');
+    callback(nameInput);
+}
+userInput(greeting); //Hello 'your namr' you have 60 seconds to finish your homework
+
+// Unchanging state 
+let line = "I am an immutable value";
+let otherline = line.slice(10, 17);// i can to create new state
+console.log(otherline); // 'mutable'
+
+//Closures
+function person() {
+    let name = 'Julia';
+
+    return function displayName() {
+        console.log(name);
+    };
+}
+let peter = person();
+peter(); // 'Julia'
+
+// Recursion
+function factorial(x) {
+    if (x < 0) throw Error("Cannot calculate factorial of a negative number");
+    function iter(i, fact) {
+        if (i === 0) return fact;
+        else return iter(i - 1, i * fact);
+
+    }
+    return iter(x, 1);
+}
+factorial(5); // 120
