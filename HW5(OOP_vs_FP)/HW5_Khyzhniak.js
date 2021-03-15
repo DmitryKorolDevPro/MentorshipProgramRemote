@@ -107,6 +107,12 @@ log('--- Classes ---');
 function newScopeForTask2() {
   // Write an abstract class
   class User {
+    constructor () {
+      if (this.constructor == User) {
+        throw new Error("Abstract classes can't be instantiated.");
+      }
+    }
+
     nickname = null;
     id = null;
     avatar = null;
@@ -114,9 +120,15 @@ function newScopeForTask2() {
     isLogged = null;
     isAdmin = null;
 
-    login() {}
-    logout() {}
-    writeInChat() {} // Polymorphism*
+    login() {
+      throw new Error("Method 'login()' must be implemented.");
+    }
+    logout() {
+      throw new Error("Method 'logout()' must be implemented.");
+    }
+    writeInChat() { // Polymorphism*
+      throw new Error("Method 'writeInChat()' must be implemented.");
+    }
   }
   
   // Create two classes using inheritance (not abstract)
@@ -128,6 +140,10 @@ function newScopeForTask2() {
       super();
       this.nickname = 'Guest';
     }
+
+    login() {};
+    logout() {};
+    writeInChat() {};
   }
   
   class RegistredUser extends Guest { // Inheritance
@@ -141,8 +157,8 @@ function newScopeForTask2() {
       super();
       this.nickname = nickname;
     }
-  
-    login() {
+
+    logout() {
       this.isLogged = true;
     }
   
@@ -197,6 +213,8 @@ function newScopeForTask2() {
   }
   
   // Create instances of these classes
+  const abstractUser = new User(); // Error: Abstract class can't be instantiated.
+
   const visitor = new Guest();
   console.log(visitor);
   
