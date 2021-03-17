@@ -1,65 +1,42 @@
 const emailsToCheck = [
   // CHECK FOR CASE SENSIVITY
-  "example@gmail.com", // true | Case doesn`t matter
-  "EXAMPLE@GMAIL.COM", // true
-  "ExAmPlE@mail.ru", // true
+  'example@gmail.com', // ✅ | Case doesn`t matter
+  'EXAMPLE@GMAIL.COM', // ✅
+  'ExAmPlE@mail.ru', // ✅
   // CHECK FOR SPACES BEFORE AND AFTER EMAIL
-  "        example@gmail.com         ", // true | we can remove spaces
-  "        example@gmail.com", // true | we can remove spaces
-  "example@gmail.com         ", // true | we can remove spaces
+  '        example@gmail.com         ', // ✅ | we can ignore spaces
+  '        example@gmail.com', // ✅ | we can ignore spaces
+  'example@gmail.com         ', // ✅ | we can ignore spaces
   // CHECK FOR LENGTH
-  "exmpl@mail.ru", // true | Let`s say the name of an email must be >= 5 characters
-  "exmp@gmail.ru", // false | < 5
-  "exm@mail.ru", // false | < 5
+  'exmpl@mail.ru', // ✅ | Let`s say the name of an email must be >= 5 characters
+  'exmp@gmail.ru', // ❗️ | < 5
+  'exm@mail.ru', // ❗️ | < 5
   // CHECK FOR ORDER OR MISSING PARTS
-  "example @gmail.com", // false | space inside of enmail is not allowed
-  "example@gmail. com", // false | space inside of enmail is not allowed
-  "example@mailru", // false | dot is missing
-  "exmple@mailru.", // false | there is no domain name
-  ".example@mailru", // false | domain name must be after @
-  "exm@.mailru", // false | there isn`t anything before @
-  "exm@.", // false | domain name is missing
-  "examplemail.ua", // false | @ is missing
-  "@examplemail.ua", // false | @ is in the beginning
-  "examplemail.ua@", // false | @ is in the end
+  'example @gmail.com', // ❗️ | space inside of enmail is not allowed
+  'example@gmail. com', // ❗️ | space inside of enmail is not allowed
+  'example@mailru', // ❗️ | dot is missing
+  'exmple@mailru.', // ❗️ | there is no domain name
+  '.example@mailru', // ❗️ | domain name must be after @
+  'exm@.mailru', // ❗️ | there isn`t anything before @
+  'exm@.', // ❗️ | domain name is missing
+  'examplemail.ua', // ❗️ | @ is missing
+  '@examplemail.ua', // ❗️ | @ is in the beginning
+  'examplemail.ua@', // ❗️ | @ is in the end
   // CHECK FOR NUMBERS
-  "example12@gmail.com", // true | numbers in the email name is allowed
-  "12example@gmail.com", // true | numbers in the email name is allowed
-  "example@12gmail.com", // false | numbers in the domain name is not allowed
-  "example@gmail.12", // false | numbers in the domain name is not allowed
+  'example12@gmail.com', // ✅ | numbers in the email name is allowed
+  '12example@gmail.com', // ✅ | numbers in the email name is allowed
+  'example@12gmail.com', // ❗️ | numbers in the domain name is not allowed
+  'example@gmail.12', // ❗️ | numbers in the domain name is not allowed
   // CHECK FOR OTHER CHARACTERS
-  "ex!ample@gmail.com", // false | other characters is not allowed
-  "ex?ample@gmail.com", // false | other characters is not allowed
-  "ex,ample@gmail.com", // false | other characters is not allowed
-  "ex@..a@mple@gmail.com", // false | other characters is not allowed
-  "ex.ample@gmail.com" // false | other characters is not allowed
+  'ex!ample@gmail.com', // ❗️ | other characters is not allowed
+  'ex?ample@gmail.com', // ❗️ | other characters is not allowed
+  'ex,ample@gmail.com', // ❗️ | other characters is not allowed
+  'ex@..a@mple@gmail.com', // ❗️ | other characters is not allowed
+  'ex.ample@gmail.com' // ❗️ | other characters is not allowed
 ];
 
-const regex = new RegExp(/.{5,}@.+\..+/);
-const additionalRegex = new RegExp(/[-?_!,#$^&]/);
-
-function emailValidator(email) {
-  email = email.trim();
-
-  if (
-    !regex.test(email) ||
-    email.indexOf(" ") !== -1 ||
-    email.indexOf(".") !== email.lastIndexOf(".") ||
-    email.indexOf("@") !== email.lastIndexOf("@")
-  ) {
-    return false;
-  }
-
-  const [emailName, domainName] = email.split("@");
-  if (additionalRegex.test(email) || /\d/.test(domainName)) {
-    return false;
-  }
-
-  return true;
-}
-
 for (const email of emailsToCheck) {
-  if (emailValidator(email)) {
+  if (/^\s*\w{5,}@[a-z]+\.[a-z]+\s*$/i.test(email)) {
     console.log(`${email} is valid ✅`);
   } else {
     console.log(`${email} is not valid ❗️`);
@@ -67,16 +44,21 @@ for (const email of emailsToCheck) {
 }
 
 // and the second that will validate the password according to basic rules 
-// (only Latin and numbers, and a special character are allowed " ?,!, @, -, +, = ". Large and small letters must be present, the password is at least 8 characters long)
+// (only Latin and numbers, and a special character are allowed ' ?,!, @, -, +, = '. Large and small letters must be present, the password is at least 8 characters long)
 
-const passwordsToCheck = [];
-
-function passwordIsValid(pass) {
-
-}
+const passwordsToCheck = [
+  'Exaaaaaaaammmmmpppleeeeee13333333777', // ✅
+  'Example137', // ✅
+  'Ex@mp!e137', // ✅
+  'example137', // ❗️ | There are no capital letters
+  'Exampleeee', // ❗️ | There are no digits
+  'Example', // ❗️ | < 8
+  'Examp12', // ❗️ | < 8
+  'ex12', // ❗️ | < 8
+];
 
 for (const pass of passwordsToCheck) {
-  if (passwordIsValid(pass)) {
+  if (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w\?\,\!\@\-\+\=]{8,}$/.test(pass)) {
     console.log(`${pass} is valid ✅`);
   } else {
     console.log(`${pass} is not valid ❗️`);
