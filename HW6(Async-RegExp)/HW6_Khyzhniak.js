@@ -1,3 +1,7 @@
+// One of the most common tasks is to validate the user's email and password.
+// Write two regular expressions,
+// one of which will validate the email for spelling validity 
+
 const emailsToCheck = [
   // CHECK FOR CASE SENSIVITY
   'example@gmail.com', // ✅ | Case doesn`t matter
