@@ -232,10 +232,7 @@ PersonnelDep2.prototype.finishVacation = function () {
     this.vacation = false;
     console.log(`${this.name} at work...`);
 }
-PersonnelDep2.prototype.getAdvice = function () {//encapsulation(not work)
-    let getInspirit = `${this.name} were inspired...`
-    return console.log(getInspirit);
-}
+
 function Students2(name, task, vacation) { //Inheritance Class from PersonnelDep2
     PersonnelDep2.call(this, task);
 
@@ -263,7 +260,6 @@ const mentor2 = new PersonnelDep2('Dmitry', false,);
 student1_2.startVacation();   // I'm Dima! I'm on holiday! :D
 student2_2.finishVacation();  //holiday is done :( Lana at work...
 student2_2.homeworkCheck(5);  //Need to do 9 task for Lana
-student2_2.getAdvice;         //Lana were inspired... (not work)
 mentor2.startVacation();     //I'm Dmitry! I'm on vacation! :D
 let director = new Company2(); // if you try to create instance of abstract class we get:
 // Uncaught Error: You cannot create an instance of Abstract Class
