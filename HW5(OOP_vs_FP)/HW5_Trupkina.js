@@ -211,6 +211,10 @@ mentor.startVacation();     //I'm Dmitry! I'm on vacation! :D
 function Company2() { //abstract class (constructor)
     this.name = null;
     this.vacation = false;
+    // Additional task* 
+    if (this.constructor === Company2) {//we must not allow creation of instance of abstract class 
+        throw new Error("You cannot create an instance of Abstract Class");
+    };
 }
 Company2.prototype.startVacation = function () { };
 Company2.prototype.finishVacation = function () { };
@@ -261,6 +265,8 @@ student2_2.finishVacation();  //holiday is done :( Lana at work...
 student2_2.homeworkCheck(5);  //Need to do 9 task for Lana
 student2_2.getAdvice;         //Lana were inspired... (not work)
 mentor2.startVacation();     //I'm Dmitry! I'm on vacation! :D
+let director = new Company2(); // if you try to create instance of abstract class we get:
+// Uncaught Error: You cannot create an instance of Abstract Class
 
 //_________________________________________________
 // Functional programming task:
