@@ -2,7 +2,7 @@
 function validEmail() {
     //Set the default value
     let email = prompt('Type correctly email please', `example@gmail.com`);
-    const regexp_email = /^([A-z0-9_\.+-]{3,})+@[A-z0-9-]{3,10}\.[A-z]{2,6}$/;
+    const regexp_email = /^([\w\.+-]{3,})+@[A-z0-9-]{3,10}\.[A-z]{2,6}$/;//we can't use \w in domen name and sub name
     if (email === null) return undefined;//i catch cancellation
     else if (regexp_email.test(email) === true) return alert('This is your Email:\n' + email);
     return validEmail();
@@ -41,3 +41,5 @@ console.log(validEmail());
 //example @gmail.com //false
 //example@356.ru //true 
 //example@356.333 //false
+//example@Flora-mix.ru //true
+//exa23@44m.p-le@Flora-mix.ru //false - for all ()!@#$%^&*=
