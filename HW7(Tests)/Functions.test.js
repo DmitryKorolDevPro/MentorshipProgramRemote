@@ -1,3 +1,4 @@
+const fetch = require('node-fetch'); // implementing fetch in Node.js
 const {describe, test, expect, beforeAll} = require('@jest/globals');
 const {validateEmail, User, getUsers, getUsersEmails} = require('./Functions.js');
 
