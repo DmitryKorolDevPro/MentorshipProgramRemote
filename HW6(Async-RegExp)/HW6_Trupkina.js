@@ -12,12 +12,11 @@ let email = ['example@gmail.com', //true
     'example@Flora-mix.ru',       //true
     'exa23@44m.p-le@Flora-mix.ru' //false - for all ()!@#$%^&*=
 ];
-console.log(validEmail(email));
-function validEmail(mail) {
+console.log(checkEmail(email));
+function checkEmail(mail) {
     const regexp_email = /^([\w\.+-]{3,})+@[A-z0-9-]{3,10}\.[A-z]{2,6}$/;//we can't use \w in domen name and sub name because '_' included
     for (const iterator of mail) {
-        //console.log(`${iterator}: ${regexp_email.test(iterator) === true}`);//can be write shorter
-        if (regexp_email.test(iterator) === true) {
+        if (regexp_email.test(iterator)) {
             console.log(`${iterator}: true`);
         }
         else {
@@ -38,13 +37,13 @@ let password = ['aaaaaaaaA#',     //true
     '2222222222#',                //false
     '############'                //false
 ];
-console.log(validPassword(password));
-function validPassword(pass) {
+console.log(checkPassword(password));
+function checkPassword(pass) {
     /* only Latin and numbers, and a special character are allowed " ?,!, @, -, +, = ".
      Large and small letters must be present, the password is at least 8 characters long */
     const regexp_pass = /^.*(?=.{8,})(?=.+[A-Z])(?=.+[a-z])(?=.*[!@#$%^&*?+=-]).*$/;
     for (const iterator of pass) {
-        if (regexp_pass.test(iterator) === true) {
+        if (regexp_pass.test(iterator)) {
             console.log(`${iterator}: true`);
         }
         else {
