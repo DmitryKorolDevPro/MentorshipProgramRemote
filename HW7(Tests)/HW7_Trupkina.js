@@ -7,5 +7,4 @@ function checkPassword(pass) {
     const regexp_pass = /^.*(?=.{8,})(?=.+[A-Z])(?=.+[a-z])(?=.*[!@#$%^&*?+=-]).*$/;
     return regexp_pass.test(pass);
 }
-
 module.exports = { checkPassword, checkEmail };
