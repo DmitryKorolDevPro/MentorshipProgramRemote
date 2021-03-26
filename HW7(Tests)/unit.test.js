@@ -3,7 +3,8 @@ const { describe, test, expect } = require('@jest/globals');
 
 describe('Testing... ', () => {
     describe('Testing function checkPassword: ', () => {
-        let passwordTrue = ['aaaaaaaaA#',
+        let passwordTrue = [
+            'aaaaaaaaA#',
             'AAAAAAA22a#',
             'passwOrd3%'
         ];
@@ -16,6 +17,11 @@ describe('Testing... ', () => {
             '2222222222#',
             '############'
         ];
+        test('Testing in function checkPassword if do not write anything:', () => {
+            expect(passwordTrue).not.toBeNull();
+            expect(passwordTrue).toBeDefined();
+            expect(passwordTrue).not.toBeUndefined();
+        });
         test('Testing true value password: ', () => {
             for (const i of passwordTrue) {
                 expect(checkPassword(i)).toBe(true);
@@ -45,6 +51,11 @@ describe('Testing... ', () => {
             'example@356.333',
             'exa23@44m.p-le@Flora-mix.ru'
         ];
+        test('Testing in function checkEmail if do not write anything:', () => {
+            expect(emailTrue).not.toBeNull();
+            expect(emailTrue).toBeDefined();
+            expect(emailTrue).not.toBeUndefined();
+        });
         test('Testing true value email', () => {
             for (const i of emailTrue) {
                 expect(checkEmail(i)).toBe(true);
