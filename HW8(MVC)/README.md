@@ -1,7 +1,7 @@
 Write a basic TODO list using the MVC pattern.
 
 UI exapmle
-http://screenshots.client-demo-site.net/Screenshot_260E39BC.png
+https://screenshots.client-demo-site.net/VanillaJS_%E2%80%A2_TodoMVC_260E3C90.png
 
 Requirements
 - Base UI (you can use a bootstrap.css)
