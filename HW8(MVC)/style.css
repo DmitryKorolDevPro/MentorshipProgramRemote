@@ -49,9 +49,13 @@ input {
   background-color: rgba(0, 0, 0, 0.137);
 }
 
-/* .tasks, .to-do__button--show {
+.tasks__list, .to-do__button--show {
   display: none;
-} */
+}
+
+.tasks__list {
+  overflow: hidden;
+}
 
 .to-do__button--show {
   position: relative;
@@ -82,8 +86,14 @@ input {
 
 .tasks {
   margin-top: 25px;
+  transition: .5s ease;
 }
 
 .tasks__list {
-  list-style-image: url();
+  letter-spacing: 1.1px;
+  list-style-type: none;
+}
+
+.tasks__list li {
+  display: flex;
 }
