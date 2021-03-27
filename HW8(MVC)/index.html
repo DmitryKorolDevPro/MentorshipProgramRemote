@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do list</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>THINGS TO DO ✌️</h1>
+
+  <div class="to-do">
+    <button class="to-do__button to-do__button--show" title="Show all tasks">SHOW</button>
+      <input class="to-do__input" type="text" placeholder="Add a new task 👈">
+    <button class="to-do__button to-do__button--add" title="Add a new task">ADD</button>
+
+    <div class="tasks">
+      <ul class="tasks__list">
+        <li class="tasks__list-item">You don`t have any tasks yet ¯\_(ツ)_/¯</li>
+      </ul>
+  
+      <div class="tasks__buttons-container">
+        <button class="tasks__button">Mark as done</button>
+        <button class="tasks__button">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="view.js" type="module"></script>
+  <script src="controller.js" type="module"></script>
+  <script src="model.js" type="module"></script>
+</body>
+</html>

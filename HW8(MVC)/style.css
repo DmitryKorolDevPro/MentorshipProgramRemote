@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+body, button, input {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+h1 {
+  user-select: none;
+  font-family: 'Dela Gothic One', cursive;
+  font-size: 3.5em;
+}
+
+input {
+  background-color: #fff;
+  border: 1px solid #000;
+}
+
+.to-do__input {
+  margin: 15px 10px;
+  width: 350px;
+  height: 40px;
+  padding-left: 10px;
+}
+
+.to-do__button {
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+  font-family: 'Dela Gothic One', cursive;
+  border: 2px solid #000;
+  background-color: #fff;
+  transition: all .5s ease-out;
+}
+
+.to-do__button:hover {
+  background-color: rgba(0, 0, 0, 0.137);
+}
+
+/* .tasks, .to-do__button--show {
+  display: none;
+} */
+
+.to-do__button--show {
+  position: relative;
+  transition: .25s ease;
+}
+
+.to-do__button--show::after {
+  position: absolute;
+  content: '⟶';
+  font-size: 1.5em;
+  font-weight: bold;
+  bottom: -120%;
+  left: 60%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  transition: .25s ease;
+  color: transparent;
+}
+
+.to-do__button--show:hover::after {
+  position: absolute;
+  content: '⟶';
+  font-size: 1.5em;
+  bottom: -150%;
+  left: 60%;
+  transform: translate(-50%, -50%) rotate(60deg);
+  color: #000;
+}
+
+.tasks {
+  margin-top: 25px;
+}
+
+.tasks__list {
+  list-style-image: url();
+}
