@@ -29,4 +29,12 @@ function getCurrentTasks() {
   return getSavedTasks().list;
 }
 
-export { getSavedTasks, saveNewTask, getTasksElements, getCurrentTasks, setTasksList };
+function getNotDoneTasks() {
+  const tasks = getCurrentTasks();
+
+  return ({
+    'list': tasks.filter(el => !el.isCompleted)
+  });
+}
+
+export { getSavedTasks, saveNewTask, getTasksElements, getCurrentTasks, setTasksList, getNotDoneTasks };

@@ -134,3 +134,10 @@ input {
 .tasks__button img {
   width: 25px;
 }
+
+.tasks__button--filter {
+  border: 1px solid #000;
+  padding: 0 5px;
+  font-size: 10px;
+  font-family: "Dela Gothic One", cursive;
+}

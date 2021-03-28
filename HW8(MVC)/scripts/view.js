@@ -1,4 +1,5 @@
-import { addNewTask, addEventListenersForButtons } from './controller.js';
+import { addNewTask, addEventListenersForButtons, toggleFilter, filtered } from './controller.js';
+import { getSavedTasks } from './model.js';
 
 const input = document.querySelector('.to-do__input');
 const addTaskButton = document.querySelector('.to-do__button--add');
@@ -31,9 +32,12 @@ addTaskButton.addEventListener('click', () => {
   }
 })
 
-showOrCloseButton.addEventListener('click', switchShowOrCloseButton);
+showOrCloseButton.addEventListener('click', toggleShowButton);
 
-function switchShowOrCloseButton() {
+function toggleShowButton() {
+  tasksListContainer.style.display = 'inline-block';
+  showOrCloseButton.style.display = 'inline-block';
+
   if (tasksListContainer.style.height === '25vh') {
     tasksListContainer.style.height = '0px';
     tasksListContainer.style.overflow = 'hidden';
@@ -50,6 +54,13 @@ function switchShowOrCloseButton() {
 }
 
 function renderTasks(savedTasks) {
+  if (getSavedTasks().list.length === 0) {
+    toggleShowButton();
+    showOrCloseButton.style.display = 'none';
+    tasksListContainer.style.display = 'none';
+    return;
+  }
+
   let tasksCounter = 0;
 
   tasksListContainer.innerHTML = `
@@ -68,13 +79,14 @@ function renderTasks(savedTasks) {
     li.classList.add('tasks__list-item', 'task');
 
     markAsDoneIcon.alt = 'Press to mark task as done';
+    markAsDoneIcon.draggable = false;
     markAsDoneIcon.classList.add(`icon-${tasksCounter}`);
 
     if (task.isCompleted === true) {
       markAsDoneIcon.src = 'images/task-done.svg';
       taskTitle.classList.add('task__title--done');
     } else {
-      markAsDoneIcon.src = 'images/task-not-done.svg';
+      markAsDoneIcon.src = 'images/task.svg';
     }
 
     markAsDoneButton.classList.add('tasks__button', 'tasks__button--done');
@@ -84,6 +96,7 @@ function renderTasks(savedTasks) {
     taskTitle.innerText = task.title;
 
     deleteTaskIcon.classList.add(`icon-${tasksCounter}`);
+    deleteTaskIcon.draggable = false;
     deleteTaskIcon.alt = 'Press to delete task';
     deleteTaskIcon.src = 'images/delete-task.svg';
 
@@ -98,11 +111,28 @@ function renderTasks(savedTasks) {
     tasksCounter++;
   }
 
-  tasksListContainer.innerHTML += `
-  <li class="tasks__list-item">
-      <div class="tasks__title tasks__title--last">ADD MORE TASKS</div>
-      <button class="tasks__button">All</button>
-  </li>`;
+  const li = document.createElement('li');
+  const div = document.createElement('div');
+  const filterTasksButton = document.createElement('button');
+  
+  li.classList.add('tasks__list-item');
+  div.classList.add('tasks__title', 'tasks__title--last');
+  filterTasksButton.classList.add('tasks__button', 'tasks__button--filter');
+
+  div.innerText = 'ADD MORE TASKS';
+
+  console.log(filtered);
+
+  if (filtered === 'true') {
+    filterTasksButton.innerText = 'NOT DONE';
+  } else {
+    filterTasksButton.innerText = 'ALL';
+  }
+
+  li.append(div, filterTasksButton);
+  filterTasksButton.addEventListener('click', toggleFilter);
+
+  tasksListContainer.appendChild(li);
 
   addEventListenersForButtons();
 }
