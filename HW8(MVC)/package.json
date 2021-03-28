@@ -1,0 +1,22 @@
+{
+  "name": "hw8",
+  "version": "1.0.0",
+  "description": "jest",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^26.6.3"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "jest",
+    "todo",
+    "list"
+  ],
+  "author": "Trupkina svtupkina@gmail.com",
+  "license": "ISC"
+}
