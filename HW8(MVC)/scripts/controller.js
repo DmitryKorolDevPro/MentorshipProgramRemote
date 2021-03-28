@@ -1,11 +1,10 @@
-import { input, renderTasks, showTasksButton, tasksListContainer } from './view.js';
+import { input, renderTasks, showOrCloseButton, tasksListContainer } from './view.js';
 import { getTasks, saveNewTask } from './model.js';
 
 document.body.onload = () => {  
   if (anyTasksAlreadySaved()) {
-    showTasksButton.style.display = 'inline-block';
+    showOrCloseButton.style.display = 'inline-block';
     tasksListContainer.style.display = 'inline-block';
-
     renderTasks(getTasks());
   }
 }
@@ -14,7 +13,6 @@ function anyTasksAlreadySaved() {
   if (getTasks() !== null) {
     return true;
   }
-  
   return false;
 }
 
@@ -25,7 +23,6 @@ function addNewTask() {
   })
 
   input.value = '';
-
   renderTasks(getTasks());
 }
 
