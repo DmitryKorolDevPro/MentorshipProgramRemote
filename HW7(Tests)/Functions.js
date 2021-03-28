@@ -1,5 +1,3 @@
-const { getUsers } = require('./Async-functions');
-
 function validateEmail(email) {
   return /^\s*\w{5,}@[a-z]+\.[a-z]+\s*$/i.test(email);
 }
@@ -15,8 +13,7 @@ class User {
   }
 }
 
-async function getUsersEmails() {
-  const users = await getUsers();
+function getUsersEmails(users) {
   return users.map(user => user.email);
 }
 

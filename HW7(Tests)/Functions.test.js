@@ -1,21 +1,43 @@
-const fetch = require('node-fetch'); // implementing fetch in Node.js
 const {describe, test, expect, beforeAll} = require('@jest/globals');
-const {validateEmail, User, getUsers, getUsersEmails} = require('./Functions.js');
+const {validateEmail, User, getUsersEmails} = require('./Functions.js');
+const {getUsers} = require('./Async-functions.js');
+
+const validEmailsToCheck = [
+  'example@gmail.com',
+  'EXAMPLE@GMAIL.COM',
+  'ExAmPlE@mail.ru',
+  '        example@gmail.com         ',
+  '        example@gmail.com',
+  'example@gmail.com         ',
+  'exmpl@mail.ru',
+  'example12@gmail.com',
+  '12example@gmail.com',
+];
+
+const invalidEmailsToCheck = [
+  'exmp@gmail.ru',
+  'exm@mail.ru',
+  'example @gmail.com',
+  'example@gmail. com',
+  'example@mailru',
+  'exmple@mailru.',
+  '.example@mailru',
+  'exm@.mailru',
+  'exm@.',
+  'examplemail.ua',
+  '@examplemail.ua',
+  'examplemail.ua@',
+  'example@12gmail.com',
+  'example@gmail.12',
+  'ex!ample@gmail.com',
+  'ex?ample@gmail.com',
+  'ex,ample@gmail.com',
+  'ex@..a@mple@gmail.com',
+  'ex.ample@gmail.com'
+];
 
 describe('Testing function validateEmail with different emails.', () => {
   describe('Should return true with valid emails.', () => {
-    const validEmailsToCheck = [
-      'example@gmail.com',
-      'EXAMPLE@GMAIL.COM',
-      'ExAmPlE@mail.ru',
-      '        example@gmail.com         ',
-      '        example@gmail.com',
-      'example@gmail.com         ',
-      'exmpl@mail.ru',
-      'example12@gmail.com',
-      '12example@gmail.com',
-    ];
-
     test('Returns true for valid emails.', () => {
       for (const email of validEmailsToCheck) {
         expect(validateEmail(email)).toBe(true);
@@ -24,28 +46,6 @@ describe('Testing function validateEmail with different emails.', () => {
   });
 
   describe('Should return false with invalid emails.', () => {
-    const invalidEmailsToCheck = [
-      'exmp@gmail.ru',
-      'exm@mail.ru',
-      'example @gmail.com',
-      'example@gmail. com',
-      'example@mailru',
-      'exmple@mailru.',
-      '.example@mailru',
-      'exm@.mailru',
-      'exm@.',
-      'examplemail.ua',
-      '@examplemail.ua',
-      'examplemail.ua@',
-      'example@12gmail.com',
-      'example@gmail.12',
-      'ex!ample@gmail.com',
-      'ex?ample@gmail.com',
-      'ex,ample@gmail.com',
-      'ex@..a@mple@gmail.com',
-      'ex.ample@gmail.com'
-    ];
-
     test('Returns false for invalid emails.', () => {
       for (const email of invalidEmailsToCheck) {
         expect(validateEmail(email)).toBe(false);
@@ -70,7 +70,7 @@ describe('Testing class User.', () => {
     });
   });
 
-  describe('Passing only one argument to the User constructor.', () => {
+  describe('Passing only one argument to the User constructor. Checking default values.', () => {
     const user = new User('Dmytro');
 
     test('Returned object properties and values are correct.', () => {
@@ -85,7 +85,7 @@ describe('Testing class User.', () => {
     });
   });
 
-  describe('Passing no arguments to the User constructor.', () => {
+  describe('Passing no arguments to the User constructor. Checking default values.', () => {
     const user = new User();
 
     test('Returned object properties and values are correct.', () => {
@@ -101,48 +101,17 @@ describe('Testing class User.', () => {
   });
 });
 
-/*
-  // IN CASE WE WANT TO TEST RESPONSE FROM OUR API
-
-  // NOTE! THAT`S NOT FOR OUT UNIT-TESTS
-
-describe('Testing API respone with async function getUsers()', () => {
-  let users;
-
-  beforeAll(async () => {
-      users = await (
-        await fetch('https://jsonplaceholder.typicode.com/users')
-      ).json();
-  });
-
-  test('Returned value is an Array and it`s length > 0', () => {
-    expect(Array.isArray(users)).toBe(true);
-    expect(users.length).toBeGreaterThan(0);
-  });
-
-  test('Returned array contains objects with valid properties', async () => {
-    for (const user of users) {
-      expect(user).toMatchObject({
-        username: expect.any(String),
-        name: expect.any(String),
-        id: expect.any(Number),
-      });
-    }
-  });
-});
-
-  // WE SHOULD USE MOCKS INSTEAD, AS SHOWN BELOW
-*/
-
 jest.mock('./Async-functions.js')
 
-describe('Testing async function getUsersEmails()', () => {
-  let usersEmails;
+describe('Testing function getUsersEmails()', () => {
+  let users, usersEmails;
 
-  beforeAll(() => {
-    getUsersEmails().then(emails => {
-      usersEmails = emails;
-    });
+  beforeAll(async () => {
+   await getUsers().then(response => {
+     users = response;
+   });
+
+   usersEmails = getUsersEmails(users);
   });
 
   test('Returned value is an Array and it`s length > 0', () => {
@@ -160,7 +129,7 @@ describe('Testing async function getUsersEmails()', () => {
   test('Returned strings matching RegExp for validating emails', () => {
     for (const email of usersEmails) {
       expect(email).toEqual(
-        expect.stringMatching(/^\s*\w{5,}@[a-z]+\.[a-z]+\s*$/i)
+        expect.stringMatching(/^\s*[\w\.]{5,}@[a-z]+\.[a-z]+\s*$/i)
       );
     }
   })
