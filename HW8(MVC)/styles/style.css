@@ -4,7 +4,7 @@
   padding: 0;
 }
 
-body{
+body {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,14 +12,16 @@ body{
   height: 100vh;
 }
 
-body, button, input {
-  font-family: 'Roboto', sans-serif;
+body,
+button,
+input {
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
 }
 
 h1 {
   user-select: none;
-  font-family: 'Dela Gothic One', cursive;
+  font-family: "Dela Gothic One", cursive;
   font-size: 3.5em;
 }
 
@@ -40,10 +42,10 @@ input {
   width: 100px;
   height: 40px;
   cursor: pointer;
-  font-family: 'Dela Gothic One', cursive;
+  font-family: "Dela Gothic One", cursive;
   border: 2px solid #000;
   background-color: #fff;
-  transition: all .5s ease-out;
+  transition: all 0.5s ease-out;
 }
 
 .to-do__button:hover {
@@ -53,14 +55,14 @@ input {
 .to-do__button--show {
   margin-right: 10px;
   display: none;
-  transition: .25s ease;
+  transition: 0.25s ease;
   background-color: rgba(50, 218, 50, 0.323);
 }
 
 .tasks {
   margin-top: 5px;
   height: 0;
-  transition: .5s ease;
+  transition: 0.5s ease;
 }
 
 .tasks__list {
@@ -69,7 +71,7 @@ input {
   justify-content: flex-start;
   height: 0px;
   background-color: rgba(32, 32, 32, 0.096);
-  transition: height .35s ease;
+  transition: height 0.35s ease;
   overflow-y: scroll;
   border: 1px solid #000;
   width: 100%;
@@ -89,10 +91,11 @@ input {
   border-bottom: 1px solid rgb(119, 119, 119);
 }
 
-.tasks__list li:first-child ,.tasks__list li:last-child {
+.tasks__list li:first-child,
+.tasks__list li:last-child {
   justify-content: center;
   border-bottom: 0;
-  font-family: 'Dela Gothic One', cursive;
+  font-family: "Dela Gothic One", cursive;
   letter-spacing: 0;
   padding: 0;
   user-select: none;
@@ -115,6 +118,10 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.task__title--done {
+  text-decoration: line-through;
 }
 
 .tasks__button {

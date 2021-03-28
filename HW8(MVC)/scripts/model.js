@@ -1,3 +1,9 @@
+function setTasksList(list) {
+  localStorage.setItem('savedTasks', JSON.stringify({
+    'list': list
+  }));
+}
+
 function saveNewTask(task) {
   let tasksList = localStorage.getItem('savedTasks') ?? {
     "list": []
@@ -11,8 +17,16 @@ function saveNewTask(task) {
   localStorage.setItem('savedTasks', JSON.stringify(tasksList));
 }
 
-function getTasks() {
+function getTasksElements() {
+  return document.querySelectorAll('.task');
+}
+
+function getSavedTasks() {
   return JSON.parse(localStorage.getItem('savedTasks'));
 }
 
-export { getTasks, saveNewTask };
+function getCurrentTasks() {
+  return getSavedTasks().list;
+}
+
+export { getSavedTasks, saveNewTask, getTasksElements, getCurrentTasks, setTasksList };

@@ -1,4 +1,4 @@
-import { addNewTask } from './controller.js';
+import { addNewTask, addEventListenersForButtons } from './controller.js';
 
 const input = document.querySelector('.to-do__input');
 const addTaskButton = document.querySelector('.to-do__button--add');
@@ -7,33 +7,6 @@ const tasksListContainer = document.querySelector('.tasks__list');
 
 const lightGreenColor = 'rgba(50, 218, 50, 0.323)';
 const lightRedColor = 'rgba(218, 50, 50, 0.323)';
-
-function renderTasks(savedTasks) {
-  tasksListContainer.innerHTML = `
-  <li class="tasks__list-item tasks__list-item--last">
-    <div class="tasks__title tasks__title--last">CURRENT TASKS</div>
-  </li>`;
-
-  for (const task of savedTasks.list) {
-    //       ${task.isCompleted}
-    tasksListContainer.innerHTML += `
-    <li class="tasks__list-item">
-      <button class="tasks__button tasks__button--done">
-        <img src="images/task-not-done.svg" alt="Press to mark task as done">
-      </button>
-        <div class="tasks__title">${task.title}</div>
-      <button class="tasks__button tasks__button--delete">
-        <img src="images/delete-task.svg" alt="Press to delete task">
-      </button>
-    </li>`
-  }
-
-  tasksListContainer.innerHTML += `
-  <li class="tasks__list-item tasks__list-item--last">
-      <div class="tasks__title tasks__title--last">ADD MORE TASKS</div>
-      <button class="tasks__button">All</button>
-  </li>`;
-}
 
 input.addEventListener('input', () => {
   if (input.value.length > 0) {
@@ -74,6 +47,64 @@ function switchShowOrCloseButton() {
     showOrCloseButton.innerHTML = 'CLOSE';
     showOrCloseButton.style.backgroundColor = lightRedColor;
   }
+}
+
+function renderTasks(savedTasks) {
+  let tasksCounter = 0;
+
+  tasksListContainer.innerHTML = `
+  <li class="tasks__list-item">
+    <div class="tasks__title tasks__title--last">CURRENT TASKS</div>
+  </li>`;
+
+  for (const task of savedTasks.list) {
+    const li = document.createElement('li');
+    const markAsDoneButton = document.createElement('button');
+    const markAsDoneIcon = document.createElement('img');
+    const taskTitle = document.createElement('div');
+    const deleteTaskButton = document.createElement('button');
+    const deleteTaskIcon = document.createElement('img');
+
+    li.classList.add('tasks__list-item', 'task');
+
+    markAsDoneIcon.alt = 'Press to mark task as done';
+    markAsDoneIcon.classList.add(`icon-${tasksCounter}`);
+
+    if (task.isCompleted === true) {
+      markAsDoneIcon.src = 'images/task-done.svg';
+      taskTitle.classList.add('task__title--done');
+    } else {
+      markAsDoneIcon.src = 'images/task-not-done.svg';
+    }
+
+    markAsDoneButton.classList.add('tasks__button', 'tasks__button--done');
+    markAsDoneButton.appendChild(markAsDoneIcon);
+
+    taskTitle.classList.add('task__title');
+    taskTitle.innerText = task.title;
+
+    deleteTaskIcon.classList.add(`icon-${tasksCounter}`);
+    deleteTaskIcon.alt = 'Press to delete task';
+    deleteTaskIcon.src = 'images/delete-task.svg';
+
+    deleteTaskButton.appendChild(deleteTaskIcon);
+    deleteTaskButton.classList.add('tasks__button', 'tasks__button--delete');
+
+    li.appendChild(markAsDoneButton);
+    li.appendChild(taskTitle);
+    li.appendChild(deleteTaskButton);
+
+    tasksListContainer.appendChild(li);
+    tasksCounter++;
+  }
+
+  tasksListContainer.innerHTML += `
+  <li class="tasks__list-item">
+      <div class="tasks__title tasks__title--last">ADD MORE TASKS</div>
+      <button class="tasks__button">All</button>
+  </li>`;
+
+  addEventListenersForButtons();
 }
 
 export { input, renderTasks, tasksListContainer, showOrCloseButton };
