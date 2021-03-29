@@ -1,3 +1,4 @@
+
 var list = document.querySelector('ul');
 
 list.addEventListener('click', function (ev) {
