@@ -1,8 +1,8 @@
-const { } = require('./javascript');
+//const { } = require('./controller');
 const { describe, test, expect } = require('@jest/globals');
 
 describe('Testing Controller... ', () => {
-    describe('On click Enter: should add into list (li and span) ', () => {
+    describe('On click button Add: should add into list ', () => {
 
     });
 });
