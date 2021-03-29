@@ -1,31 +1,76 @@
-/* eslint-disable linebreak-style */
-import { input, renderTasks, showOrCloseButton, tasksListContainer } from './view.js';
-import { setTasksList, saveNewTask, getTasksHtmlElements, getTasksList, getNotDoneTasksList } from './model.js';
+import { renderTasks, toggleShowButton } from './view.js';
+import { saveNewTask, getTasksList, setTasksList, setFilter } from './model.js';
 
-let filtered = localStorage.getItem('filtered') ?? 'false';
+const input = document.querySelector('.to-do__input');
+const addTaskButton = document.querySelector('.to-do__button--add');
+const tasksListContainer = document.querySelector('.tasks__list');
+const showOrCloseButton = document.querySelector('.to-do__button--show');
 
 document.body.onload = () => {
-  if (anyTasksAlreadySaved()) {
-    showOrCloseButton.style.display = 'inline-block';
-    tasksListContainer.style.display = 'inline-block';
-    prepareTasks(filtered);
-  }
-};
+  tasksListContainer.addEventListener('click', element => {
+    const clickedOn = element.target;
+    const clickedOnClassList = clickedOn.classList;
+  
+    if (clickedOnClassList.contains('icon')) {
+      let [type, index] = clickedOnClassList[1].split('-');
 
-function prepareTasks(isFiltered) {
-  if (isFiltered === 'true') {
-    renderTasks(getNotDoneTasksList());
-  } else {
+      if (type === 'doneIcon') {
+        toggleDoneMarker(index);
+      } else if (type === 'deleteIcon'){
+        deleteTask(index);
+      } else {
+        switchFilterMode();
+      }
+    }
+  });
+
+  showOrCloseButton.addEventListener('click', toggleShowButton);
+
+  if (anyTasksAlreadySaved()) {
+    toggleShowButton();
     renderTasks(getTasksList());
   }
 }
 
-function anyTasksAlreadySaved() {
-  if (getTasksList().length > 0) {
-    return true;
+function toggleDoneMarker(index) {
+  const tasks = getTasksList();
+  let isDone = tasks[index].isCompleted;
+
+  if (isDone) {
+    isDone = false;
+  } else {
+    isDone = true;
   }
-  return false;
+  tasks[index].isCompleted = isDone;
+  
+  setTasksList(tasks);
+  renderTasks(tasks);
 }
+
+function deleteTask(index) {
+  const tasks = getTasksList();
+  tasks.splice(index, 1);
+
+  setTasksList(tasks);
+  renderTasks(tasks);
+}
+
+function switchFilterMode() {
+  let statusOfFilter = isFiltered();
+
+  if (statusOfFilter === 'true') {
+    statusOfFilter = 'false';
+  } else {
+    statusOfFilter = 'true';
+  }
+
+  setFilter(statusOfFilter);
+  renderTasks(getTasksList());
+}
+
+function isFiltered() {
+  return localStorage.getItem('isFiltered') ?? 'false';
+};
 
 function addNewTask() {
   saveNewTask({
@@ -36,56 +81,16 @@ function addNewTask() {
   input.value = '';
 }
 
-function addEventListenersForButtons() {
-  const tasksElementsList = getTasksHtmlElements();
-
-  for (const el of tasksElementsList) {
-    const markAsDoneButton = el.querySelector('.tasks__button--done');
-    markAsDoneButton.addEventListener('click', toggleDoneButton);
-
-    const deleteTaskButton = el.querySelector('.tasks__button--delete');
-    deleteTaskButton.addEventListener('click', deleteTask);
-  }
+function updateTasks() {
+  renderTasks(getTasksList());
 }
 
-function deleteTask(el) {
-  const taskIndex = el.target.classList[0].split('-')[1];
-
-  const currentTasks = getTasksList();
-  currentTasks.splice(taskIndex, 1);
-
-  setTasksList(currentTasks);
-  prepareTasks(filtered);
+function anyTasksAlreadySaved() {
+  if (getTasksList().length > 0) {
+    return true;
+  }
+  return false;
 }
 
-function toggleDoneButton(el) {
-  if (!el.target.classList.contains('icon')) {
-    return;
-  }
-
-  const taskIndex = el.target.classList[1].split('-')[1];
-  const currentTasks = getTasksList();
-  const currentTaskStatus = currentTasks[taskIndex].isCompleted;
-
-  if (currentTaskStatus) {
-    currentTasks[taskIndex].isCompleted = false;
-  } else {
-    currentTasks[taskIndex].isCompleted = true;
-  }
-
-  setTasksList(currentTasks);
-  prepareTasks(filtered);
-}
-
-function toggleFilter() {
-  if (filtered === 'true') {
-    filtered = 'false';
-  } else {
-    filtered = 'true';
-  }
-
-  prepareTasks(filtered);
-  localStorage.setItem('filtered', filtered);
-}
-
-export { prepareTasks, addNewTask, anyTasksAlreadySaved, addEventListenersForButtons, toggleFilter, filtered };
+export { input, addTaskButton, tasksListContainer, showOrCloseButton,
+addNewTask, updateTasks, isFiltered, getTasksList, };

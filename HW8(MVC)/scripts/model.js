@@ -1,10 +1,4 @@
-import { prepareTasks, filtered } from './controller.js';
-
-function setTasksList(list) {
-  localStorage.setItem('savedTasks', JSON.stringify({
-    list,
-  }));
-}
+import { updateTasks } from './controller.js';
 
 function saveNewTask(task) {
   let tasksList = localStorage.getItem('savedTasks') ?? {
@@ -17,11 +11,8 @@ function saveNewTask(task) {
 
   tasksList.list.push(task);
   localStorage.setItem('savedTasks', JSON.stringify(tasksList));
-  prepareTasks(filtered);
-}
 
-function getTasksHtmlElements() {
-  return document.querySelectorAll('.task');
+  updateTasks();
 }
 
 function getTasksList() {
@@ -34,6 +25,14 @@ function getNotDoneTasksList() {
   return tasks.filter((task) => !task.isCompleted);
 }
 
-export {
-  setTasksList, saveNewTask, getTasksHtmlElements, getTasksList, getNotDoneTasksList,
-};
+function setTasksList(list) {
+  localStorage.setItem('savedTasks', JSON.stringify({
+    list,
+  }));
+}
+
+function setFilter(newStatus) {
+  localStorage.setItem('isFiltered', newStatus);
+}
+
+export { saveNewTask, getTasksList, getNotDoneTasksList, setTasksList, setFilter };
