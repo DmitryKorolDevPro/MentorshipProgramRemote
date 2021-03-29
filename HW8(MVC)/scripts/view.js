@@ -1,5 +1,4 @@
 import { addNewTask, addEventListenersForButtons, toggleFilter, filtered } from './controller.js';
-import { getSavedTasks } from './model.js';
 
 const input = document.querySelector('.to-do__input');
 const addTaskButton = document.querySelector('.to-do__button--add');
@@ -27,10 +26,10 @@ addTaskButton.addEventListener('click', () => {
     input.style.border = '1px solid rgba(224, 16, 16, 0.692)';
 
     setTimeout(() => {
-      input.style.border = '1px solid #000';  
+      input.style.border = '1px solid #000';
     }, 1000);
   }
-})
+});
 
 showOrCloseButton.addEventListener('click', toggleShowButton);
 
@@ -53,8 +52,8 @@ function toggleShowButton() {
   }
 }
 
-function renderTasks(savedTasks) {
-  if (getSavedTasks().list.length === 0) {
+function renderTasks(tasks) {
+  if (tasks.length === 0 && filtered === 'false') {
     toggleShowButton();
     showOrCloseButton.style.display = 'none';
     tasksListContainer.style.display = 'none';
@@ -68,7 +67,7 @@ function renderTasks(savedTasks) {
     <div class="tasks__title tasks__title--last">CURRENT TASKS</div>
   </li>`;
 
-  for (const task of savedTasks.list) {
+  for (const task of tasks) {
     const li = document.createElement('li');
     const markAsDoneButton = document.createElement('button');
     const markAsDoneIcon = document.createElement('img');
@@ -80,7 +79,7 @@ function renderTasks(savedTasks) {
 
     markAsDoneIcon.alt = 'Press to mark task as done';
     markAsDoneIcon.draggable = false;
-    markAsDoneIcon.classList.add(`icon-${tasksCounter}`);
+    markAsDoneIcon.classList.add('icon', `icon-${tasksCounter}`);
 
     if (task.isCompleted === true) {
       markAsDoneIcon.src = 'images/task-done.svg';
@@ -95,7 +94,7 @@ function renderTasks(savedTasks) {
     taskTitle.classList.add('task__title');
     taskTitle.innerText = task.title;
 
-    deleteTaskIcon.classList.add(`icon-${tasksCounter}`);
+    deleteTaskIcon.classList.add('icon', `icon-${tasksCounter}`);
     deleteTaskIcon.draggable = false;
     deleteTaskIcon.alt = 'Press to delete task';
     deleteTaskIcon.src = 'images/delete-task.svg';
@@ -114,14 +113,11 @@ function renderTasks(savedTasks) {
   const li = document.createElement('li');
   const div = document.createElement('div');
   const filterTasksButton = document.createElement('button');
-  
   li.classList.add('tasks__list-item');
   div.classList.add('tasks__title', 'tasks__title--last');
   filterTasksButton.classList.add('tasks__button', 'tasks__button--filter');
 
   div.innerText = 'ADD MORE TASKS';
-
-  console.log(filtered);
 
   if (filtered === 'true') {
     filterTasksButton.innerText = 'NOT DONE';

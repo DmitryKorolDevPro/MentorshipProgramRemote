@@ -1,40 +1,39 @@
+import { prepareTasks, filtered } from './controller.js';
+
 function setTasksList(list) {
   localStorage.setItem('savedTasks', JSON.stringify({
-    'list': list
+    list,
   }));
 }
 
 function saveNewTask(task) {
   let tasksList = localStorage.getItem('savedTasks') ?? {
-    "list": []
+    list: [],
   };
-  
+
   if (typeof tasksList === 'string') {
     tasksList = JSON.parse(tasksList);
   }
 
   tasksList.list.push(task);
   localStorage.setItem('savedTasks', JSON.stringify(tasksList));
+  prepareTasks(filtered);
 }
 
-function getTasksElements() {
+function getTasksHtmlElements() {
   return document.querySelectorAll('.task');
 }
 
-function getSavedTasks() {
-  return JSON.parse(localStorage.getItem('savedTasks'));
+function getTasksList() {
+  const tasks = JSON.parse(localStorage.getItem('savedTasks')) ?? { list: [] };
+  return tasks.list;
 }
 
-function getCurrentTasks() {
-  return getSavedTasks().list;
+function getNotDoneTasksList() {
+  const tasks = getTasksList();
+  return tasks.filter((task) => !task.isCompleted);
 }
 
-function getNotDoneTasks() {
-  const tasks = getCurrentTasks();
-
-  return ({
-    'list': tasks.filter(el => !el.isCompleted)
-  });
-}
-
-export { getSavedTasks, saveNewTask, getTasksElements, getCurrentTasks, setTasksList, getNotDoneTasks };
+export {
+  setTasksList, saveNewTask, getTasksHtmlElements, getTasksList, getNotDoneTasksList,
+};
