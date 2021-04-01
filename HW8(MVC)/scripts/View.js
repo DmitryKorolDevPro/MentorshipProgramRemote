@@ -1,119 +1,153 @@
 import { $C } from './Controller.js';
 
+const h1Text = 'THINGS TO DO ✌️';
+const showButtonTextOnClose = 'SHOW';
+const showButtonTextOnOpen = 'CLOSE';
+const showButtonTitle = 'Show all tasks';
+const addButtonText = 'ADD';
+const addButtonTitle = 'Add a new task';
+const inputPlaceholder = 'Add a new task 👈';
+const tasksListHeaderText = 'CURRENT TASKS';
+const tasksListFooterText = 'ADD MORE TASKS';
+const filterButtonTextOnFiltered = 'NOT DONE';
+const filterButtonTextOnNotFiltered = 'ALL';
+const doneIconAltText = 'Press to mark task as done';
+const deleteIconAltText = 'Press to delete task';
+
+const rootElementId = 'to-do';
+const buttonsClassList = 'to-do__button';
+const showButtonClassList = 'to-do__button--show';
+const addButtonClassList = 'to-do__button--add';
+const inputClassList = 'to-do__input';
+const tasksContainerClassList = 'tasks';
+const tasksListClassList = 'tasks__list';
+const tasksListItemClassList = 'tasks__list-item';
+const taskTitleClassList = 'tasks__title';
+const lastTaskTitleClassList = 'tasks__title--last';
+const doneTaskTitleClassList = 'tasks__title--done';
+const iconsButtonClassList = 'tasks__button';
+const filterButtonClassList = 'tasks__button--filter';
+const deleteButtonClassList = 'tasks__button--delete';
+const filterButtonOnFilteredClassList = 'tasks__button--done';
+const iconsClassList = 'icon';
+const taskClassList = 'task';
+
+const showButtonColorOnClose = '#87ff93';
+const showButtonColorOnOpen = '#ff8f87';
+
 class View {
   constructor() {
-    this.toDoContainer = document.getElementById('to-do');
+    this.toDoContainer = document.getElementById(rootElementId);
 
     if (this.toDoContainer === null) {
       throw new Error(`Root HTML element for creating View of this to-do list was not found.`);
     }
 
+    this.renderUserInerface();
+  }
+
+  renderUserInerface() {
     const h1 = document.createElement('h1');
-    h1.innerText = 'THINGS TO DO ✌️';
+    h1.textContent = h1Text;
     document.body.prepend(h1);
 
     this.showButton = document.createElement('button');
-    this.showButton.classList.add('to-do__button', 'to-do__button--show');
-    this.showButton.title = 'Show all tasks';
-    this.showButton.innerText = 'SHOW';
+    this.showButton.classList.add(buttonsClassList, showButtonClassList);
+    this.showButton.textContent = showButtonTextOnClose;
+    this.showButton.title = showButtonTitle;
     this.toDoContainer.appendChild(this.showButton);
 
     this.input = document.createElement('input');
-    this.input.classList.add('to-do__input');
-    this.input.placeholder = 'Add a new task 👈';
+    this.input.classList.add(inputClassList);
+    this.input.placeholder = inputPlaceholder;
     this.toDoContainer.appendChild(this.input);
 
     this.addButton = document.createElement('button');
-    this.addButton.classList.add('to-do__button', 'to-do__button--add');
-    this.addButton.title = 'Add a new task';
-    this.addButton.innerText = 'ADD';
+    this.addButton.classList.add(buttonsClassList, addButtonClassList);
+    this.addButton.innerText = addButtonText;
+    this.addButton.title = addButtonTitle;
     this.toDoContainer.appendChild(this.addButton);
 
     this.tasksContainer = document.createElement('div');
-    this.tasksContainer.classList.add('tasks');
+    this.tasksContainer.classList.add(tasksContainerClassList);
     this.toDoContainer.appendChild(this.tasksContainer);
 
     this.tasksList = document.createElement('ul');
-    this.tasksList.classList.add('tasks__list');
+    this.tasksList.classList.add(tasksListClassList);
     this.tasksContainer.appendChild(this.tasksList);
   }
 
-  renderTasks(tasks) {
-    if (tasks.length === 0 && $C.isFiltered() === 'false') {
+  renderTasks(tasks, isFiltered) {
+    if (tasks.length === 0 && isFiltered === 'false') {
       this.toggleShowButton();
       this.showButton.style.display = 'none';
       this.tasksList.style.display = 'none';
-      $C.tasksListIsHidden = true;
       return;
     }
-    this.createTasksListBody(tasks);
+
+    this.createTasksListBody(tasks, isFiltered);
   }
 
   toggleShowButton() {
-    this.tasksList = document.querySelector('.tasks__list');
-    this.showButton = document.querySelector('.to-do__button--show');
+    this.tasksList = document.querySelector(`.${tasksListClassList}`);
+    this.showButton = document.querySelector(`.${showButtonClassList}`);
 
     this.tasksList.style.display = 'inline-block';
     this.showButton.style.display = 'inline-block';
+    this.tasksList.classList.toggle('open');
 
-    if (this.tasksList.style.height >= '25vh') {
-      this.tasksList.style.height = '0px';
-      this.tasksList.style.overflow = 'hidden';
-      this.tasksList.style.padding = '0px';
-      this.showButton.innerHTML = 'SHOW';
-      this.showButton.style.background = '#87ff93';
+    if (this.tasksList.classList.contains('open')) {
+      this.showButton.textContent = showButtonTextOnOpen;
+      this.showButton.style.background = showButtonColorOnOpen;
     } else {
-      this.tasksList.style.height = '25vh';
-      this.tasksList.style.overflowY = 'scroll';
-      this.tasksList.style.padding = '15px';
-      this.showButton.innerHTML = 'CLOSE';
-      this.showButton.style.background = '#ff8f87';
+      this.showButton.textContent = showButtonTextOnClose;
+      this.showButton.style.background = showButtonColorOnClose;
     }
   }
 
-  createTasksListBody(tasks) {
+  createTasksListBody(tasks, isFiltered) {
     this.tasksList.innerHTML = `
-      <li class="tasks__list-item">
-        <div class="tasks__title tasks__title--last">CURRENT TASKS</div>
+      <li class="${tasksListItemClassList}">
+        <div class="${taskTitleClassList} ${lastTaskTitleClassList}">${tasksListHeaderText}</div>
       </li>`;
 
-    this.createTasksListItems(tasks);
+    this.createTasksListItems(tasks, isFiltered);
       
     let filterButtonText;
-      if ($C.isFiltered() === 'true') {
-        filterButtonText = 'NOT DONE';
+      if (isFiltered === 'true') {
+        filterButtonText = filterButtonTextOnFiltered;
       } else {
-        filterButtonText = 'ALL';
+        filterButtonText = filterButtonTextOnNotFiltered;
       }
 
     this.tasksList.innerHTML += `
-      <li class="tasks__list-item">
-        <div class="tasks__title tasks__title--last">ADD MORE TASKS</div>
-        <button class="tasks__button tasks__button--filter icon">
+      <li class="${tasksListItemClassList}">
+        <div class="${taskTitleClassList} ${lastTaskTitleClassList}">${tasksListFooterText}</div>
+        <button class="${iconsButtonClassList} ${filterButtonClassList} ${iconsClassList}">
           ${filterButtonText}
         </button>
       </li>`;
   }
 
-  createTasksListItems(tasks) {
+  createTasksListItems(tasks, isFiltered) {
     let tasksCounter = 0;
 
     for (const task of tasks) {
-      if ($C.isFiltered() === 'true' && tasks[tasksCounter].isCompleted === true) {
+      if (isFiltered === 'true' && tasks[tasksCounter].isCompleted === true) {
         tasksCounter++;
         continue;
       }
 
       this.tasksList.innerHTML += `
-        <li class="tasks__list-item task">
-          <button class="tasks__button tasks__button--done">
-            <img src="images/task.svg" class="icon doneIcon-${tasksCounter}" alt="Press to mark task as done" draggable="false">
+        <li class="${tasksListItemClassList} ${taskClassList}">
+          <button class="${iconsButtonClassList} ${filterButtonOnFilteredClassList}">
+            <img src="images/task.svg" class="${iconsClassList} doneIcon-${tasksCounter}" alt="${doneIconAltText}" draggable="false">
           </button>
 
-          <div class="task__title title-${tasksCounter}">${task.title}</div>
+          <div class="${taskTitleClassList} title-${tasksCounter}">${task.title}</div>
 
-          <button class="tasks__button tasks__button--delete">
-            <img src="images/delete-task.svg" class="icon deleteIcon-${tasksCounter}" draggable="false" alt="Press to delete task">
+          <button class="${iconsButtonClassList} ${deleteButtonClassList}">
+            <img src="images/delete-task.svg" class="${iconsClassList} deleteIcon-${tasksCounter}" draggable="false" alt="${deleteIconAltText}">
           </button>
         </li>
       `;
@@ -123,7 +157,7 @@ class View {
         currentMarkAsDoneIcon.src = 'images/task-done.svg';
 
         const currentTitle = document.querySelector('.title-' + tasksCounter);
-        currentTitle.classList.add('task__title--done');
+        currentTitle.classList.add(doneTaskTitleClassList);
       }
 
       tasksCounter++;

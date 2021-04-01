@@ -56,7 +56,6 @@ input {
   margin-right: 10px;
   display: none;
   transition: 0.25s ease;
-  background-color: rgba(50, 218, 50, 0.323);
 }
 
 .tasks {
@@ -69,14 +68,15 @@ input {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 0px;
   background-color: rgba(32, 32, 32, 0.096);
   transition: 0.35s ease;
-  overflow-y: scroll;
   border: 1px solid #000;
   width: 100%;
   letter-spacing: 1.1px;
   list-style-type: none;
+  height: 0px;
+  overflow-y: hidden;
+  padding: 0px;
 }
 
 .tasks__list li {
@@ -140,4 +140,10 @@ input {
   padding: 0 5px;
   font-size: 10px;
   font-family: "Dela Gothic One", cursive;
+}
+
+.open {
+  height: 25vh;
+  overflow-y: scroll;
+  padding: 15px;
 }

@@ -1,8 +1,7 @@
-// NOT INTERACTING WITH A CONTROLLER. SEEMS LIKE A MISTAKE.
 class Model {
   constructor() {}
 
-  addTask(title) {
+  addTaskToTheStorage(title) {
     const currentTasks = this.getTasksList();
 
     currentTasks.push({

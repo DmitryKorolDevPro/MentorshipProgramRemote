@@ -4,13 +4,12 @@ import { $M } from './Model.js';
 class Controller {
   constructor () {
     this.invalidInputTimer = null;
-    this.tasksListIsHidden = true;
   }
 
   initialize() {
     $V.tasksContainer.addEventListener('click', this.handleClick);
     $V.showButton.addEventListener('click', $V.toggleShowButton);
-    $V.addButton.addEventListener('click', this.addTask);
+    $V.addButton.addEventListener('click', this.passTaskToModel);
 
     $V.input.addEventListener('input', () => {
       if ($V.input.value.length > 0) {
@@ -22,7 +21,7 @@ class Controller {
 
     if (this.anyTasksAlreadySaved()) {
       $V.toggleShowButton();
-      $V.renderTasks($M.getTasksList());
+      $V.renderTasks($M.getTasksList(), this.isFiltered());
     }
   }
 
@@ -55,7 +54,7 @@ class Controller {
     tasks[index].isCompleted = isDone;
     
     $M.setTasksList(tasks);
-    $V.renderTasks(tasks);
+    $V.renderTasks(tasks, this.isFiltered());
   }
 
   deleteTask(index) {
@@ -63,7 +62,7 @@ class Controller {
     tasks.splice(index, 1);
 
     $M.setTasksList(tasks);
-    $V.renderTasks(tasks);
+    $V.renderTasks(tasks, this.isFiltered());
   }
 
   switchFilterMode() {
@@ -76,23 +75,24 @@ class Controller {
     }
 
     $M.setFilter(currentStatus);
-    $V.renderTasks($M.getTasksList());
+    $V.renderTasks($M.getTasksList(), this.isFiltered());
   }
 
-  addTask() {
+  passTaskToModel() {
     $V.addButton.style.backgroundColor = '#fff';
 
     if ($V.input.value.length > 0) {
-      if ($C.tasksListIsHidden) {
-        $C.tasksListIsHidden = false;
+      const tasksList = document.querySelector('.tasks__list');
+
+      if (!tasksList.classList.contains('open')) {
         $V.toggleShowButton();
       }
 
-      $M.addTask($V.input.value);
+      $M.addTaskToTheStorage($V.input.value);
 
       $V.input.value = '';
       $V.showButton.style.backgroundColor = '#ff8f87';
-      $V.renderTasks($M.getTasksList());
+      $V.renderTasks($M.getTasksList(), $C.isFiltered());
     } else {
       $V.input.style.border = '1px solid #ff8f87';
       clearTimeout(this.invalidInputTimer);
