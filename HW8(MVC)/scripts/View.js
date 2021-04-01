@@ -2,7 +2,11 @@ import { $C } from './Controller.js';
 
 class View {
   constructor() {
-    this.toDoContainer = document.querySelector('.to-do');
+    this.toDoContainer = document.getElementById('to-do');
+
+    if (this.toDoContainer === null) {
+      throw new Error(`Root HTML element for creating View of this to-do list was not found.`);
+    }
 
     const h1 = document.createElement('h1');
     h1.innerText = 'THINGS TO DO ✌️';
