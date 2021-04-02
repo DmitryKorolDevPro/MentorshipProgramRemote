@@ -1,15 +1,18 @@
 class Model {
-  constructor() {}
-
-  addTaskToTheStorage(title) {
+  addTaskToTheTasksList(title) {
     const currentTasks = this.getTasksList();
-
     currentTasks.push({
       'title': title,
       'isCompleted': false
     });
 
-    this.setTasksList(currentTasks);
+    this.saveTasksList(currentTasks);
+  }
+
+  removeTaskFromTheTasksList(index) {
+    const currentTasks = $M.getTasksList();
+    currentTasks.splice(index, 1);
+    $M.saveTasksList(currentTasks);
   }
 
   getTasksList() {
@@ -17,13 +20,12 @@ class Model {
     return tasks.list;
   }
 
-  setTasksList(tasksList) {
+  saveTasksList(tasksList) {
     let savedTasks = {
       'list': tasksList
     };
 
     savedTasks = JSON.stringify(savedTasks);
-
     localStorage.setItem('savedTasks', savedTasks);
   }
 

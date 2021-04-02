@@ -2,30 +2,26 @@ import { $V } from './View.js';
 import { $M } from './Model.js';
 
 class Controller {
-  constructor () {
-    this.invalidInputTimer = null;
-  }
-
   initialize() {
-    $V.tasksContainer.addEventListener('click', this.handleClick);
+    $V.tasksContainer.addEventListener('click', this.handleClickOnTasksContainer);
     $V.showButton.addEventListener('click', $V.toggleShowButton);
     $V.addButton.addEventListener('click', this.passTaskToModel);
 
     $V.input.addEventListener('input', () => {
       if ($V.input.value.length > 0) {
-        $V.addButton.style.backgroundColor = '#87ff93';
+        $V.addButton.style.backgroundColor = $V.greenColor;
       } else {
-        $V.addButton.style.backgroundColor = '#fff';
+        $V.addButton.style.backgroundColor = $V.redColor;
       }
     });
 
-    if (this.anyTasksAlreadySaved()) {
+    if (this.checkIfAnyTasksAlreadySaved()) {
       $V.toggleShowButton();
       $V.renderTasks($M.getTasksList(), this.isFiltered());
     }
   }
 
-  handleClick(e) {
+  handleClickOnTasksContainer(e) {
     const clickedOn = e.target;
     const clickedOnClassList = clickedOn.classList;
   
@@ -44,25 +40,15 @@ class Controller {
 
   toggleDoneMarker(index) {
     const tasks = $M.getTasksList();
-    let isDone = tasks[index].isCompleted;
-
-    if (isDone) {
-      isDone = false;
-    } else {
-      isDone = true;
-    }
-    tasks[index].isCompleted = isDone;
+    tasks[index].isCompleted = !tasks[index].isCompleted;
     
-    $M.setTasksList(tasks);
+    $M.saveTasksList(tasks);
     $V.renderTasks(tasks, this.isFiltered());
   }
 
   deleteTask(index) {
-    const tasks = $M.getTasksList();
-    tasks.splice(index, 1);
-
-    $M.setTasksList(tasks);
-    $V.renderTasks(tasks, this.isFiltered());
+    $M.removeTaskFromTheTasksList(index);
+    $V.renderTasks($M.getTasksList(), this.isFiltered());
   }
 
   switchFilterMode() {
@@ -79,7 +65,7 @@ class Controller {
   }
 
   passTaskToModel() {
-    $V.addButton.style.backgroundColor = '#fff';
+    $V.addButton.style.backgroundColor = $V.whiteColor;
 
     if ($V.input.value.length > 0) {
       const tasksList = document.querySelector('.tasks__list');
@@ -88,33 +74,23 @@ class Controller {
         $V.toggleShowButton();
       }
 
-      $M.addTaskToTheStorage($V.input.value);
+      $M.addTaskToTheTasksList($V.input.value);
 
       $V.input.value = '';
-      $V.showButton.style.backgroundColor = '#ff8f87';
+      $V.showButton.style.backgroundColor = $V.redColor;
       $V.renderTasks($M.getTasksList(), $C.isFiltered());
     } else {
-      $V.input.style.border = '1px solid #ff8f87';
-      clearTimeout(this.invalidInputTimer);
-      
-      this.invalidInputTimer = setTimeout(() => {
-        $V.input.style.border = '1px solid #000';
-      }, 1000);
+      $V.addInvalidStyleToTheInput();
     }
   }
  
   inputIsValid() {
     const value = $V.input.value;
     $V.input.value = value.trim();
-
-    if (value.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return value.length > 0;
   }
 
-  anyTasksAlreadySaved() {
+  checkIfAnyTasksAlreadySaved() {
     const currentTasksList = $M.getTasksList();
 
     if (currentTasksList.length > 0) {

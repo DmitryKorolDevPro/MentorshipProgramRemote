@@ -23,8 +23,7 @@ const tasksContainerClassList = 'tasks';
 const tasksListClassList = 'tasks__list';
 const tasksListItemClassList = 'tasks__list-item';
 const taskTitleClassList = 'tasks__title';
-const lastTaskTitleClassList = 'tasks__title--last';
-const doneTaskTitleClassList = 'tasks__title--done';
+const doneTaskTitleClassList = 'task__title--done';
 const iconsButtonClassList = 'tasks__button';
 const filterButtonClassList = 'tasks__button--filter';
 const deleteButtonClassList = 'tasks__button--delete';
@@ -32,12 +31,18 @@ const filterButtonOnFilteredClassList = 'tasks__button--done';
 const iconsClassList = 'icon';
 const taskClassList = 'task';
 
-const showButtonColorOnClose = '#87ff93';
-const showButtonColorOnOpen = '#ff8f87';
+const redColor = '#ff8f87';
+const greenColor = '#87ff93';
+const whiteColor = '#fff';
 
 class View {
   constructor() {
+    this.whiteColor = whiteColor;
+    this.greenColor = greenColor;
+    this.redColor = redColor;
+
     this.toDoContainer = document.getElementById(rootElementId);
+    this.invalidInputTimer = null;
 
     if (this.toDoContainer === null) {
       throw new Error(`Root HTML element for creating View of this to-do list was not found.`);
@@ -98,17 +103,26 @@ class View {
 
     if (this.tasksList.classList.contains('open')) {
       this.showButton.textContent = showButtonTextOnOpen;
-      this.showButton.style.background = showButtonColorOnOpen;
+      this.showButton.style.backgroundColor = '#ff8f87';
     } else {
       this.showButton.textContent = showButtonTextOnClose;
-      this.showButton.style.background = showButtonColorOnClose;
+      this.showButton.style.backgroundColor = '#87ff93';
     }
+  }
+
+  addInvalidStyleToTheInput() {
+    this.input.style.border = '1px solid #ff8f87';
+    clearTimeout(this.invalidInputTimer);
+    
+    this.invalidInputTimer = setTimeout(() => {
+      this.input.style.border = '1px solid #000';
+    }, 1000);
   }
 
   createTasksListBody(tasks, isFiltered) {
     this.tasksList.innerHTML = `
       <li class="${tasksListItemClassList}">
-        <div class="${taskTitleClassList} ${lastTaskTitleClassList}">${tasksListHeaderText}</div>
+        <div class="${taskTitleClassList}">${tasksListHeaderText}</div>
       </li>`;
 
     this.createTasksListItems(tasks, isFiltered);
@@ -122,7 +136,7 @@ class View {
 
     this.tasksList.innerHTML += `
       <li class="${tasksListItemClassList}">
-        <div class="${taskTitleClassList} ${lastTaskTitleClassList}">${tasksListFooterText}</div>
+        <div class="${taskTitleClassList}">${tasksListFooterText}</div>
         <button class="${iconsButtonClassList} ${filterButtonClassList} ${iconsClassList}">
           ${filterButtonText}
         </button>
