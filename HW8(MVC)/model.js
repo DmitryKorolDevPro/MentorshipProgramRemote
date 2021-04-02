@@ -18,7 +18,6 @@ class Model {
 
     shouldAddElement() {
         return view.input.value !== '';
-
     }
     addTodo() {
         if (this.shouldAddElement()) {
@@ -26,6 +25,9 @@ class Model {
         } else {
             view.showAlert();
         }
+    }
+    //should add filter by completed or no
+    movingToComplete() {
 
     }
 }

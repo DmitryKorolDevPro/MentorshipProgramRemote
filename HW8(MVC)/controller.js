@@ -24,11 +24,13 @@ class Controller {
         view.saveButton.addEventListener('click', this.saveTodo);
     }
 
-    //function excluding execute script before the page loads
+    // excluding execute script before the page loads ____ во вью 
     crossedOut() {
         view.list.addEventListener('click', function (event) {
             if (event.target.tagName === 'LI') {
                 event.target.classList.toggle('checked');
+                //should add filter by completed or no
+
             } else if (event.target.tagName === 'SPAN') {
                 let div = event.target.parentNode;
                 div.remove();
