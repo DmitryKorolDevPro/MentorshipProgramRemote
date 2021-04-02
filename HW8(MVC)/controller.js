@@ -23,13 +23,25 @@ class Controller {
         //on click button 'save' saveElement()
         view.saveButton.addEventListener('click', this.saveTodo);
     }
+
+    //function excluding execute script before the page loads
+    crossedOut() {
+        view.list.addEventListener('click', function (event) {
+            if (event.target.tagName === 'LI') {
+                event.target.classList.toggle('checked');
+            } else if (event.target.tagName === 'SPAN') {
+                let div = event.target.parentNode;
+                div.remove();
+            }
+        }, false);
+    }
 }
 
 const controller = new Controller;
 document.body.onload = () => {
     controller.contentLisener();
     controller.restoreTodo();
-    model.crossedOut();
+    controller.crossedOut();
 }
 
 export { controller };

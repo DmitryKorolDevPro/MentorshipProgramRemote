@@ -9,7 +9,7 @@ class View {
     }
     displayAddElement() {
         const todoElement = document.createElement('li');
-        const todoText = document.createTextNode(this.inputValue);
+        const todoText = document.createTextNode(this.input.value);
         todoElement.appendChild(todoText);
 
         const closeButton = document.createElement('span');
