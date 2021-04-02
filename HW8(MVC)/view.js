@@ -1,26 +1,32 @@
 class View {
     constructor() {
-        this.list = document.querySelector('ul');
+        this.list = document.getElementById('list');
         this.addButton = document.querySelector('.addBtn');
         this.saveButton = document.querySelector('.saveBtn');
-        this.li = document.createElement('li');
-        this.inputValue = document.getElementById('toDoEl').value;
-        this.text = document.createTextNode(this.inputValue);
-        this.span = document.createElement('SPAN');
-        this.txt = document.createTextNode('X');
 
+        this.input = document.getElementById('toDoEl');
 
     }
     displayAddElement() {
-        this.li.appendChild(this.text);
-        document.getElementById('list').appendChild(li);
-        document.getElementById('toDoEl').value = '';
+        const todoElement = document.createElement('li');
+        const todoText = document.createTextNode(this.inputValue);
+        todoElement.appendChild(todoText);
 
-        this.span.className = 'close';
-        this.span.appendChild(this.txt);
-        this.li.appendChild(this.span);
+        const closeButton = document.createElement('span');
+        const closeButtonText = document.createTextNode('X');
+        closeButton.className = 'close';
+        closeButton.appendChild(closeButtonText);
 
+        todoElement.appendChild(closeButton);
+        this.list.appendChild(todoElement);
+
+        this.input.value = '';
     }
+    showAlert() {
+        alert('Please type your note');
+    }
+
 }
 
-export { View };
+const view = new View;
+export { view };

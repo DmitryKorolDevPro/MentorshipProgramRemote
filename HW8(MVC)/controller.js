@@ -1,28 +1,35 @@
-import { View } from './view.js';
-import { Model } from './model.js';
+import { view } from './view.js';
+import { model } from './model.js';
 
 class Controller {
-    constructor() {
-        this.loadDOM = null;
-    }
-    initialize() {
+    constructor() { }
 
-        //on page load loadTodo()
-        loadDOM.document.addEventListener('DOMContentLoaded', () => {
-            Model.loadTodo();
-            Model.crossedOut();
-        });
+    //call method inside class Model
+    addTodo() {
+        model.addTodo();
+    }
+    //call method inside class Model
+    saveTodo() {
+        model.saveElement();
+    }
+    //restore data on page load
+    restoreTodo() {
+        model.loadTodo();
+    }
+    contentLisener() {
+        //on click button 'add' newElement()
+        view.addButton.addEventListener('click', this.addTodo);
+
+        //on click button 'save' saveElement()
+        view.saveButton.addEventListener('click', this.saveTodo);
     }
 }
 
-//on click button 'add' newElement()
-View.addButton.addEventListener('click', Model.checkElement);
-
-//on click button 'save' saveElement()
-View.saveButton.addEventListener('click', Model.saveElement);
-
+const controller = new Controller;
 document.body.onload = () => {
-    Controller.initialize();
+    controller.contentLisener();
+    controller.restoreTodo();
+    model.crossedOut();
 }
 
-export { Controller };
+export { controller };
