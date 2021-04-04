@@ -1,0 +1,29 @@
+{
+  "name": "mentorshipprogramremote",
+  "version": "1.0.0",
+  "description": "Jest testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DmitryKorolDevPro/MentorshipProgramRemote.git"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "jest",
+    "unit",
+    "testing"
+  ],
+  "author": "Trupkina S. <svtrupkina@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DmitryKorolDevPro/MentorshipProgramRemote/issues"
+  },
+  "homepage": "https://github.com/DmitryKorolDevPro/MentorshipProgramRemote#readme",
+  "devDependencies": {
+    "jest": "26.6.3"
+  }
+}
