@@ -36,8 +36,6 @@ class View {
 
         todoElement.appendChild(closeButton);
         this.list.appendChild(todoElement);
-
-        this.input.value = '';
     }
 
     addTodo(data) {
