@@ -4,48 +4,30 @@ import { model } from './model.js';
 
 describe('Testing model...', () => {
     const todo = 'Hello Mr World!';
-    test('Testing saveElement... ', () => {
+    test('Testing method saveElement() ', () => {
         const setItem = jest.spyOn(Storage.prototype, 'setItem');
         model.saveElement(todo);
 
         expect(setItem).toHaveBeenCalledWith('todoList', todo);
     });
-    test('Testing loadTodo... ', () => {
-        const getItem = jest.spyOn(Storage.prototype, 'getItem');
-
-        const notify = jest.spyOn(Storage.prototype, 'notify');
-
+    test('Method notify() should called next after method loadTodo() ', () => {
+        model.savedTodo.notify = jest.fn();
+        const parentGetItem = jest.spyOn(Storage.prototype, 'getItem').mockReturnValue('todo');
         model.loadTodo();
-
-        expect(notify).toHaveBeenCalledWith('todoList', getItem);
+        expect(model.savedTodo.notify).toHaveBeenCalledWith('todo');
+    });
+    test('Testing method add_Todo() ', () => {
+        model.toDo.notify = jest.fn();
+        model.add_Todo(todo);
+        expect(model.toDo.notify).toHaveBeenCalledWith(todo);
     });
 });
 
-//                this.savedTodo = new Observer();
- //               loadTodo() {
- //                   if (localStorage.getItem('todoList')) {
- //                       this.savedTodo.notify(localStorage.getItem('todoList'));
- //                   }
-//                saveElement(todo) {
-//                   localStorage.setItem('todoList', todo);
-//                 }
+describe('Testing controller...', () => {
+    test('Testing  ', () => {
 
-// it("calls getItem", () => {
-    // mockGetItem = jest.fn().mockReturnValue('{"id": "1"}');
-    // const res = funcToTest();
-    // expect(mockGetItem.mock.calls.length).toBe(1);
-    // sessionStorage.getItem("abc");
+    });
+    test('Testing ', () => {
 
-    // expect(sessionStorage.getItem).toHaveBeenCalledWith("abc");
-
-//  // https://github.com/facebook/jest/issues/6858
-
-
-// describe('Testing controller...', () => {
-//     test('Testing  ', () => {
-
-//     });
-//     test('Testing ', () => {
-
-//     });
-// });
+    });
+});

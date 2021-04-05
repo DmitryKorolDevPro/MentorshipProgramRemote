@@ -4,7 +4,6 @@ class Model {
     constructor() {
         this.toDo = new Observer();
         this.savedTodo = new Observer();
-        this.toDoUppercase = new Observer();
     }
 
     //function to load todo if list is found in local storage.
