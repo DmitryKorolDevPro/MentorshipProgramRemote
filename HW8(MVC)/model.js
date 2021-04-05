@@ -22,7 +22,6 @@ class Model {
     add_Todo(text) {
         this.toDo.notify(text);
     }
-
 }
 
 const model = new Model;

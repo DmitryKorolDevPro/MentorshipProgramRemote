@@ -20,6 +20,7 @@ describe('Testing model...', () => {
         expect(notify).toHaveBeenCalledWith('todoList', getItem);
     });
 });
+
 //                this.savedTodo = new Observer();
  //               loadTodo() {
  //                   if (localStorage.getItem('todoList')) {

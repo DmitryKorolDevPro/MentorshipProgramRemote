@@ -2,7 +2,6 @@ export default class Observer {
     constructor() {
         this.subscribers = [];
     }
-
     subscribe(subscriber) {
         this.subscribers.push(subscriber);
     }

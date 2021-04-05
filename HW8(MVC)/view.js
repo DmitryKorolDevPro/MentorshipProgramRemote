@@ -73,6 +73,5 @@ class View {
         }, false);
     }
 }
-
 const view = new View;
 export { view };
