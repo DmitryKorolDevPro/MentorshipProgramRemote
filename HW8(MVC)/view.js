@@ -1,3 +1,4 @@
+import { controller } from './controller.js';
 import { model } from './model.js';
 import Subscriber from './subscriber.js'
 class View {
@@ -62,7 +63,7 @@ class View {
     }
 
     crossedOut() {
-        view.list.addEventListener('click', function (event) {
+        this.list.addEventListener('click', function (event) {
             if (event.target.tagName === 'LI') {
                 event.target.classList.toggle('checked');
 
@@ -71,6 +72,15 @@ class View {
                 elem.remove();
             }
         }, false);
+    }
+
+
+    contentLisener() {//
+        //on click button 'add' newElement()
+        this.addButton.addEventListener('click', controller.addTodo);
+
+        //on click button 'save' saveElement()
+        this.saveButton.addEventListener('click', controller.saveTodo);
     }
 }
 const view = new View;
