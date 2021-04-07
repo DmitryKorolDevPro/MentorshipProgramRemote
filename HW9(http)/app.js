@@ -10,45 +10,18 @@ const PORT = process.env.PORT || 4200;
 app.use(express.static('public'));
 
 app.get('/api/list', async (req, res) => {
-  const items = await $C.getItems(req.query.id);
-  res.send(items);
+  const request = await $C.getItems(req.query.id);
+  res.status(request.statusCode).send(request.result);
 })
 
-app.post('/api/list', async (req, _) => {
-  console.log('post');
-  $C.addItems(req.query);
+app.post('/api/list', async (req, res) => {
+  const request = await $C.addItems(req.query);
+  res.status(request.statusCode).send(request.result);
 })
 
-// app.use(express.static(path.join(__dirname + 'public')));
-
-// app.get('/', async (req, res) => {
-//   const flowersDatabase = await fs.readFile('./db.json');
-//   const stock = JSON.parse(flowersDatabase).stock;
-
-//   res.sendFile(path.join(__dirname + 'public', 'index.html'))
-//   // if (req.query.id === undefined) {
-//   //   res.send(stock);
-//   // } else {
-//   //   const requestedId = +req.query.id;
-//   //   const requestedItem = stock.find(item => item.id === requestedId);
-//   //   res.send(requestedItem);
-//   // }
-// })
-
-// app.post('/', async (req, _) => {
-//   const flowersDatabase = await fs.readFile('./db.json');
-//   const stock = JSON.parse(flowersDatabase).stock;
-
-//   stock.push({
-//     name: req.query.name ?? 'Default',
-//     id: req.query.id ?? stock.length,
-//     url: req.query.url ?? '',
-//   });
-
-//   await fs.writeFile('./db.json', JSON.stringify({
-//     stock: stock
-//   }));
-// })
+app.listen(PORT, () => {
+  console.info(`Started a server on port: ${PORT}`)
+})
 
 // app.put('/', async (req, res) => {
 //   const flowersDatabase = await fs.readFile('./db.json');
@@ -85,6 +58,3 @@ app.post('/api/list', async (req, _) => {
 //   }));
 // })
 
-app.listen(PORT, () => {
-  console.info(`Started a server on port: ${PORT}`)
-})

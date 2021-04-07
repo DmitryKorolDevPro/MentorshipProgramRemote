@@ -10,10 +10,10 @@ class Model {
   async addNewItems(name, id, url) {
     const items = await fs.readFile('./public/db.json');
     const list = JSON.parse(items).list;
-
-    if (checkIfItemAlreadyExists(id)) {
-      throw new Error('Item already exists');
-      return;
+    const isNotUnique = await this.checkIfItemIsUnique(id);
+    
+    if (isNotUnique) {
+      return false;
     }
 
     list.push({
@@ -25,10 +25,13 @@ class Model {
     await fs.writeFile('./public/db.json', JSON.stringify({
       list: list
     }));
+
+    return true;
   }
 
-  checkIfItemAlreadyExists(id) {
-    
+  async checkIfItemIsUnique(id) {
+    const itemsList = await this.getItemsList();
+    return itemsList.some(el => el === null ? false : +el.id === +id)
   }
 }
 
