@@ -1,8 +1,8 @@
-console.log('+ View');
-const $C = require('./Controller')
+const $C = require('./Controller.js');
+
 
 class View {
   
 }
 
-module.exports.$V = new View;
+module.exports = new View();

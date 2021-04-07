@@ -12,4 +12,38 @@ body {
   font-weight: normal;
   color: #1C5713;
   letter-spacing: 0.15em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+table {
+  border-spacing: 5px;
+  margin-top: 5px;
+}
+
+tbody {
+  text-align: left;
+}
+
+tr > td:first-child {
+  text-align: center;
+}
+
+td {
+  padding: 5px 10px;
+}
+
+.method, .address {
+  color: rgb(236, 236, 236);
+}
+
+.method {
+  background-color: rgba(27, 27, 27, 0.8);
+}
+
+.address {
+  background-color: rgba(27, 27, 27, 0.6);
 }
