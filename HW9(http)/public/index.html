@@ -17,26 +17,32 @@
       <tbody>
         <tr>
           <td class="method">GET</td>
-          <td class="address">api/list</td>
+          <td class="address">api/flowers</td>
           <td class="description"> - to GET all current items list</td>
         </tr>
 
         <tr>
           <td class="method">GET</td>
-          <td class="address">api/list?id=0</td>
-          <td class="description"> - to GET item with ID = 0</td>
+          <td class="address">api/flowers?id=0</td>
+          <td class="description"> - to GET item with a specific ID</td>
         </tr>
 
         <tr>
           <td class="method">POST</td>
-          <td class="address">api/list</td>
-          <td class="description"> - to ADD item with default values</td>
+          <td class="address">api/flowers?name=F&id=0&url=F</td>
+          <td class="description"> - to ADD item with NAME, ID and URL</td>
         </tr>
 
         <tr>
-          <td class="method">POST</td>
-          <td class="address">api/list?name=F&id=0&url=F</td>
-          <td class="description"> - to ADD item with NAME, ID, URL</td>
+          <td class="method">PUT</td>
+          <td class="address">api/flowers?name=new&id=0&url=new</td>
+          <td class="description"> - to UPDATE item with a specific ID</td>
+        </tr>
+
+        <tr>
+          <td class="method">DELETE</td>
+          <td class="address">api/flowers?id=0</td>
+          <td class="description"> - to DELETE item with a specific ID</td>
         </tr>
       </tbody>
     </table>

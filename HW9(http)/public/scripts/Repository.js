@@ -26,16 +26,13 @@ class Repository {
       statusCode: 200,
       result: []
     };
-    
-    const allItems = await this.findAll();
 
-    const requestedItem = allItems.result.find(
-      item => +item.id === +id
-    );
+    const list = await this.findAll();
+    const requestedItem = $M.findItem(list.result, id);
 
     if (requestedItem === undefined) {
       response.statusCode = 404;
-      response.result = 'Not Found.\nItem was not found';
+      response.result = 'Not Found.\nItem was not found.';
     } else {
       response.result.push(requestedItem);
     }
@@ -43,41 +40,73 @@ class Repository {
     return response;
   }
 
-  async create({ name, id, url }) {
+  async create({ id, name, url }) { // changed order. it was name id url
     const response = {
       statusCode: 201,
       result: 'Created.\nItem was successfully created.'
     };
 
-    const gotAllParams =
-    name !== undefined &&
-    id !== undefined &&
-    url !== undefined;
-
-    if (!gotAllParams) {
+    if (
+      name === undefined ||
+      id === undefined ||
+      url === undefined
+    ) {
       response.statusCode = 400;
-      response.result = 'Bad Request.\nSome params are missing. NAME, ID, URL must be present.';
+      response.result = 'Bad Request.\nSome parameters are missing. ID, NAME, URL must be present.';
       return response;
     }
 
     const itemAlreadyExists = await this.findOne(id);
-    
+
     if (itemAlreadyExists.statusCode === 200) {
       response.statusCode = 406;
       response.result = 'Not Acceptable.\nItem already exists.'
     } else {
-      $M.addNewItem(name, id, url);
+      $M.addNewItem(name, +id, url);
     }
 
     return response;
   }
 
-  update(id, value) {
-    throw new Error("Method not implemented.");
+  async update({ id, name, url }) {
+    const response = {
+      statusCode: 200,
+      result: 'OK.\nItem was successfully updated.'
+    };
+
+    if (id === undefined) {
+      response.statusCode = 400;
+      response.result = 'Bad Request.\nSome parameters are missing. ID, NAME, URL must be present.';
+      return response;
+    }
+    
+    const findItem = await this.findOne(id);
+    const item = findItem.result[0];
+
+    if (findItem.statusCode === 404) {
+      response.statusCode = 404;
+      response.result = 'Not Found.\nItem was not found.';
+    } else {
+      $M.updateItem(+id, name ?? item.name, url ?? item.url);
+    }
+
+    return response;
   }
 
   delete(id) {
-      throw new Error("Method not implemented.");
+    const response = {
+      statusCode: 200,
+      result: 'OK.\nItem was successfully deleted.'
+    };
+
+    $M.deleteItem(id);
+    const itemStillExists = this.findOne(id);
+
+    if (itemStillExists.statusCode === 200) {
+      this.delete(id);
+    }
+
+    return response;
   }
 }
 
