@@ -1,8 +1,5 @@
 const $C = require('./public/scripts/Controller.js');
-
 const express = require('express');
-const path = require('path');
-const fs = require('fs').promises;
 
 const app = express();
 const PORT = process.env.PORT || 4200;
@@ -15,13 +12,26 @@ app.get('/api/list', async (req, res) => {
 })
 
 app.post('/api/list', async (req, res) => {
-  const request = await $C.addItems(req.query);
+  const request = await $C.addItem(req.query);
+  res.status(request.statusCode).send(request.result);
+})
+
+app.put('/api/list', async (req, res) => {
+  const request = await $C.updateItem(req.query);
+  res.status(request.statusCode).send(request.result);
+})
+
+app.delete('/api/list', async (req, res) => {
+  const request = await $C.deleteItem(req.query.id);
   res.status(request.statusCode).send(request.result);
 })
 
 app.listen(PORT, () => {
   console.info(`Started a server on port: ${PORT}`)
 })
+
+// const path = require('path');
+// const fs = require('fs').promises;
 
 // app.put('/', async (req, res) => {
 //   const flowersDatabase = await fs.readFile('./db.json');
