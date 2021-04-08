@@ -15,10 +15,10 @@ class Model {
       url: url,
     });
 
-    this.saveList(list); // mb await
+    this.saveList(list);
   }
 
-  async updateItem(id, name, url) { // NOT WORKING
+  async updateItem(id, name, url) {
     const list = await this.getItems();
     const itemToUpdate = this.findItem(list, id);
 
@@ -33,20 +33,20 @@ class Model {
 
   async deleteItem(id) {
     const list = await this.getItems();
-    const itemToDelete = findItem(list, id);
+    const itemToDelete = this.findItem(list, id);
 
     list.splice(list.indexOf(itemToDelete), 1);
     this.saveList(list);
   }
 
-  async saveList(list) {
-    await fs.writeFile('./public/db.json', JSON.stringify({
-      list: list
-    }));
-  }
-
   findItem(list, id) {
     return list.find(item => +item.id === +id);
+  }
+
+  saveList(list) {
+    fs.writeFile('./public/db.json', JSON.stringify({
+      list: list
+    }));
   }
 }
 

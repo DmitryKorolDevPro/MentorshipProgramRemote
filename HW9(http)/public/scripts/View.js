@@ -1,7 +1,3 @@
-const $C = require('./Controller.js');
-
-class View {
-  // add list on page
-}
+class View {}
 
 module.exports = new View();

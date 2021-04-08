@@ -40,7 +40,7 @@ class Repository {
     return response;
   }
 
-  async create({ id, name, url }) { // changed order. it was name id url
+  async create({ id, name, url }) {
     const response = {
       statusCode: 201,
       result: 'Created.\nItem was successfully created.'
@@ -93,17 +93,19 @@ class Repository {
     return response;
   }
 
-  delete(id) {
+  async delete(id) {
     const response = {
       statusCode: 200,
       result: 'OK.\nItem was successfully deleted.'
     };
 
-    $M.deleteItem(id);
-    const itemStillExists = this.findOne(id);
+    const findItem = await this.findOne(id);
 
-    if (itemStillExists.statusCode === 200) {
-      this.delete(id);
+    if (findItem.statusCode === 200) {
+      $M.deleteItem(id);
+    } else {
+      response.statusCode = 404;
+      response.result = 'Not Found.\nItem was not found.';
     }
 
     return response;

@@ -1,4 +1,3 @@
-const e = require('express');
 const $V = require('./View.js');
 const $R = require('./Repository.js');
 
@@ -12,18 +11,25 @@ class Controller {
   }
 
   async addItem(params) {
-    return await $R.create(params);
-    // updateView()
+    // here and below (Arg1, Arg2) returns only last argument
+    return (
+      $V.updatePage(),
+      await $R.create(params) 
+    );
   }
 
   async updateItem(params) {
-    return await $R.update(params);
-    // updateView()
+    return (
+      $V.updatePage(),
+      await $R.update(params)
+    );
   }
 
   async deleteItem(id) {
-    return await $R.delete(id); 
-    // updateView()
+    return (
+      $V.updatePage(),
+      await $R.delete(id)
+    );
   }
 }
 
