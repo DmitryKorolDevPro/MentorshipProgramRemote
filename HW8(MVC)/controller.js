@@ -17,11 +17,18 @@ class Controller {
         model.loadTodo();
     }
 
+    contentLisener() {
+        //on click button 'add' newElement()
+        this.addButton.addEventListener('click', controller.addTodo);
+
+        //on click button 'save' saveElement()
+        this.saveButton.addEventListener('click', controller.saveTodo);
+    }
 }
 
 const controller = new Controller;
 document.body.onload = () => {
-    view.contentLisener();
+    controller.contentLisener();
     controller.restoreTodo();
     view.crossedOut();
 }

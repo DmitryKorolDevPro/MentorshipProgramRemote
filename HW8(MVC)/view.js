@@ -73,15 +73,6 @@ class View {
             }
         }, false);
     }
-
-
-    contentLisener() {//
-        //on click button 'add' newElement()
-        this.addButton.addEventListener('click', controller.addTodo);
-
-        //on click button 'save' saveElement()
-        this.saveButton.addEventListener('click', controller.saveTodo);
-    }
 }
 const view = new View;
 export { view };
