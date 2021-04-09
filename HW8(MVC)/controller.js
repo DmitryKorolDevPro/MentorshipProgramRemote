@@ -19,10 +19,10 @@ class Controller {
 
     contentLisener() {
         //on click button 'add' newElement()
-        this.addButton.addEventListener('click', controller.addTodo);
+        view.addButton.addEventListener('click', this.addTodo);
 
         //on click button 'save' saveElement()
-        this.saveButton.addEventListener('click', controller.saveTodo);
+        view.saveButton.addEventListener('click', this.saveTodo);
     }
 }
 
