@@ -1,3 +1,5 @@
-class View {}
+class View {
+  updatePage() {}
+}
 
 module.exports = new View();
