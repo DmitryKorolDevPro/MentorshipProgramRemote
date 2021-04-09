@@ -1,4 +1,3 @@
-import { controller } from './controller.js';
 import { model } from './model.js';
 import Subscriber from './subscriber.js'
 class View {
