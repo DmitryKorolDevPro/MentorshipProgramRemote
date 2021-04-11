@@ -8,13 +8,7 @@ class Repository {
       return list;
     }
 
-    const item = ($M.findItem(list, id))[0];
-    
-    if (item === undefined) {
-      return 404;
-    } else {
-      return item;
-    }
+    return $M.findItem(list, id);
   }
 
   async create({ id, name, url }) {
@@ -25,8 +19,8 @@ class Repository {
     ) {
       return 400;
     }
-    // NOT WORKING
-    if (await this.checkIfItemExists(id)) {
+
+    if (await (this.checkIfItemExists(id))) {
       return 406;
     }
     
@@ -39,7 +33,8 @@ class Repository {
       return 400;
     }
 
-    if (!this.checkIfItemExists(id)) {
+    const item = await this.find(id);
+    if (item === undefined) {
       return 404;
     }
 
@@ -52,7 +47,7 @@ class Repository {
       return 400;
     }
 
-    if (!this.checkIfItemExists(id)) {
+    if (!(await this.checkIfItemExists(id))) {
       return 404;
     }
 
@@ -61,10 +56,9 @@ class Repository {
   }
 
   async checkIfItemExists(id) {
-    const list = await this.find(id);
-    console.log(list);
+    const item = await this.find(id);
 
-    if (list.length === 0) {
+    if (item === undefined) {
       return false;
     } else {
       return true;

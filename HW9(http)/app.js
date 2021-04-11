@@ -34,7 +34,6 @@ app.post('/api/flowers', async (req, res) => {
         response.result = 'Not Acceptable.\nItem already exists.';
         break;
     }
-
   res.status(response.code).send(response.result);
 })
 
@@ -56,7 +55,6 @@ app.put('/api/flowers', async (req, res) => {
         response.result = 'Not Found.\nItem was not found.';
         break;
     }
-
   res.status(response.code).send(response.result);
 })
 
@@ -78,7 +76,6 @@ app.delete('/api/flowers', async (req, res) => {
         response.result = 'Not Found.\nItem was not found.';
         break;
     }
-
   res.status(response.code).send(response.result);
 })
 
