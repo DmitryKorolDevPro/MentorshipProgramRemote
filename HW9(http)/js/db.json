@@ -1,0 +1,16 @@
+{
+    "films": [
+        {
+            "id": "1",
+            "name": "Matrix"
+        },
+        {
+            "id": "2",
+            "name": "Lord of the Rings"
+        },
+        {
+            "id": "3",
+            "name": "Star Wars"
+        }
+    ]
+}
