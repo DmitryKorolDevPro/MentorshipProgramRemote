@@ -1,21 +1,20 @@
-// const $V = require('./View.js');
-const $R = require('./Repository.js');
+const middleware = require('./Middleware.js');
 
 class Controller {
   async getItems(id) {
-    return await $R.find(id);
+    return await middleware.find(id);
   }
 
   async addItem(params) {
-    return await $R.create(params);
+    return await middleware.create(params)
   }
 
   async updateItem(params) {
-    return await $R.update(params);
+    return await middleware.update(params);
   }
 
   async deleteItem(id) {
-    return await $R.delete(id);
+    return await middleware.delete(id);
   }
 }
 

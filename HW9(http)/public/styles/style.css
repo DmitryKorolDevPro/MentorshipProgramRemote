@@ -12,16 +12,21 @@ body {
   font-weight: normal;
   color: #1C5713;
   letter-spacing: 0.15em;
+}
+
+main, ul li {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
+}
+
+h1, h2 {
+  margin: 25px 0;
 }
 
 table {
   border-spacing: 5px;
-  margin-top: 5px;
 }
 
 tbody {
@@ -46,4 +51,32 @@ td {
 
 .address {
   background-color: rgba(27, 27, 27, 0.6);
+}
+
+#content {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 2vw;
+  margin: 0 25px;
+}
+
+ul {
+  list-style-type: none;
+  padding-bottom: 25px;
+}
+
+.card {
+  padding: 5px 0;
+  border: 2px solid green;
+  width: 244px;
+  height: 417px;
+}
+
+.card__name, .card__id {
+  margin: 10px;
+}
+
+.card__name {
+  font-weight: bold;
 }

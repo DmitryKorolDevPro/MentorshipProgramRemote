@@ -46,6 +46,18 @@
         </tr>
       </tbody>
     </table>
+
+    <h2>Current database state:</h2>
+
+    <ul id="content">
+      <% list.forEach(function(el){ %>
+        <li class="card">
+          <span class="card__name"><%= el.name %></span>
+          <img class="card__image" src="<%= el.url %>" alt="Image of a <%= el.name %>">
+          <span class="card__id">ID: <%= el.id %></span>
+        </li>
+      <% }); %>
+    </ul>
   </main>
 </body>
 </html>

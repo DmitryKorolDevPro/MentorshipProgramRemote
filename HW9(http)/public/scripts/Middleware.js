@@ -1,18 +1,18 @@
-const $M = require('./Model.js');
+const model = require('./Model.js');
 
-class Repository {
+class Middleware {
   async find(id) {
-    const list = await $M.getList();
+    const list = await model.getList();
 
     if (id === undefined) {
       return list;
     }
 
-    return $M.findItem(list, id);
+    return model.findItem(list, id);
   }
 
   async create({ id, name, url }) {
-    if ( // middleweare
+    if (
       name === undefined ||
       id === undefined ||
       url === undefined
@@ -24,7 +24,7 @@ class Repository {
       return 406;
     }
     
-    $M.addNewItemToTheList(name, +id, url);
+    model.addNewItemToTheList(name, +id, url);
     return 201;
   }
 
@@ -38,7 +38,7 @@ class Repository {
       return 404;
     }
 
-    $M.updateItem(+id, name ?? item.name, url ?? item.url);
+    model.updateItem(+id, name ?? item.name, url ?? item.url);
     return 200;
   }
 
@@ -51,7 +51,7 @@ class Repository {
       return 404;
     }
 
-    $M.deleteItem(id);
+    model.deleteItem(id);
     return 200;
   }
 
@@ -66,4 +66,4 @@ class Repository {
   }
 }
 
-module.exports = new Repository();
+module.exports = new Middleware();

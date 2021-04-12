@@ -3,7 +3,13 @@ const fs = require('fs').promises;
 class Model {
   async getList() {
     const database = await fs.readFile('./public/db.json');
-    return JSON.parse(database).list;
+
+    try {
+      const list = JSON.parse(database).list;
+      return list;
+    } catch (err) {
+      return undefined;
+    }
   }
 
   async addNewItemToTheList(name, id, url) {
