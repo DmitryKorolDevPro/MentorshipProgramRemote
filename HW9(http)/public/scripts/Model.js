@@ -26,7 +26,7 @@ class Model {
 
   async updateItem(id, name, url) {
     const list = await this.getList();
-    const itemToUpdate = this.findItem(list, id);
+    const itemToUpdate = await this.findItem(id, list);
 
     list[list.indexOf(itemToUpdate)] = {
       id: id,
@@ -39,14 +39,18 @@ class Model {
 
   async deleteItem(id) {
     const list = await this.getList();
-    const itemToDelete = this.findItem(list, id);
+    const itemToDelete = await this.findItem(id, list);
 
     list.splice(list.indexOf(itemToDelete), 1);
     this.saveList(list);
   }
 
-  findItem(list, id) {
-    return list.find(item => +item.id === +id);
+  async findItem(id, list) {
+    if (list === undefined) {
+      list = await this.getList();
+    }
+
+    return list.find(item => item.id === id);
   }
 
   saveList(list) {

@@ -12,77 +12,71 @@ const viewRouter = require('./public/scripts/View');
 app.use('/', viewRouter);
 
 app.get('/api/flowers', async (req, res) => {
-  const items = await controller.getItems(req.query.id);
-
-  if (items === undefined) {
-    res.status(204).send('No Content.');
-  } else {
-    res.status(200).send(items);
-  }
+  const response = await controller.getItems(req.query.id);
+    switch (response) {
+      case 204:
+        res.status(204).send('No Content.');
+        break;
+      case 400:
+        res.status(400).send('ID must be a number.');
+        break;
+      case 404:
+        res.status(404).send('Not Found.\nItem was not found.');
+        break;
+      default:
+        res.status(200).send(response);
+    }
 })
 
 app.post('/api/flowers', async (req, res) => {
-  const response = {
-    code: null,
-    result: null
-  };
-
-  response.code = await controller.addItem(req.query);
-    switch (response.code) {
+  const response = await controller.addItem(req.query);
+    switch (response) {
       case 201:
-        response.result = 'Created.\nItem was successfully created.';
+        res.status(201).send('Created.\nItem was successfully created.');
         break;
       case 400:
-        response.result = 'Bad request.\nSome parameters are missing. ID, NAME, URL must be present.';
+        res.status(400).send('Bad request.\nID, NAME, URL must be present.\nID must be a number.');
         break;
       case 406:
-        response.result = 'Not Acceptable.\nItem already exists.';
+        res.status(406).send('Not Acceptable.\nItem already exists.');
         break;
+      default:
+        res.status(500).send('Internal Server Error.');
     }
-
-  res.status(response.code).send(response.result);
 })
 
 app.put('/api/flowers', async (req, res) => {
-  const response = {
-    code: null,
-    result: null
-  };
-
-  response.code = await controller.updateItem(req.query);
-    switch (response.code) {
+  const response = await controller.updateItem(req.query);
+    switch (response) {
       case 200:
-        response.result = 'OK.\nItem was successfully updated.';
+        res.status(200).send('OK.\nItem was successfully updated.');
         break;
       case 400:
-        response.result = 'Bad request.\nSome parameters are missing. ID, NAME, URL must be present.';
+        res.status(400).send('Bad request.\nID, NAME or URL must be present.\nID must be a number.');
         break;
       case 404:
-        response.result = 'Not Found.\nItem was not found.';
+        res.status(404).send('Not Found.\nItem was not found.');
         break;
+      default:
+        res.status(500).send('Internal Server Error.');
     }
-  res.status(response.code).send(response.result);
 })
 
 app.delete('/api/flowers', async (req, res) => {
-  const response = {
-    code: null,
-    result: null
-  };
-  
-  response.code = await controller.deleteItem(req.query.id);
-    switch (response.code) {
+  const response = await controller.deleteItem(req.query.id);
+    switch (response) {
       case 200:
-        response.result = 'OK.\nItem was successfully deleted.';
+        res.status(200).send('OK.\nItem was successfully deleted.');
         break;
       case 400:
-        response.result = 'Bad request.\nSome parameters are missing. ID, NAME, URL must be present.';
+        res.status(400).send('Bad request.\nID must be present.\nID must be a number.');
         break;
       case 404:
-        response.result = 'Not Found.\nItem was not found.';
+        res.status(404).send('Not Found.\nItem was not found.');
         break;
+      default:
+        res.status(500).send('Internal Server Error.');
     }
-  res.status(response.code).send(response.result);
 })
 
 app.listen(PORT, () => {

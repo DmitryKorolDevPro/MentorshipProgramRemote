@@ -2,7 +2,11 @@ const middleware = require('./Middleware.js');
 
 class Controller {
   async getItems(id) {
-    return await middleware.find(id);
+    if (id === undefined) {
+      return await middleware.getAll();
+    } else {
+      return await middleware.getOne(id)
+    }
   }
 
   async addItem(params) {
