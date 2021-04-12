@@ -1,4 +1,3 @@
-const e = require('express');
 const model = require('./Model.js');
 
 class Middleware {
