@@ -1,16 +1,16 @@
 {
-    "films": [
-        {
-            "id": "1",
-            "name": "Matrix"
-        },
-        {
-            "id": "2",
-            "name": "Lord of the Rings"
-        },
-        {
-            "id": "3",
-            "name": "Star Wars"
-        }
-    ]
+  "1": {
+    "id": 1,
+    "name": "Star Wars"
+  },
+  "2": {
+    "id": 2,
+    "name": "Lord of the Rings"
+  },
+  "3": {
+    "id": 3,
+    "name": "Matrix"
+  },
+  "Hobbits": {},
+  "Hobbits:4": {}
 }
