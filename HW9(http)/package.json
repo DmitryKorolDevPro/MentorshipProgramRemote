@@ -13,6 +13,7 @@
     "js"
   ],
   "author": "Svetlana Trupkina svtrupkina@gmail.com",
+  "type": "module",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
