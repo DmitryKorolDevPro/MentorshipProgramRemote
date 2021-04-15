@@ -4,7 +4,7 @@ const controller = require('./Controller');
 const View = express.Router();
 
 View.get('', async(_, res) => {
-  const flowersList = await controller.getItems();
+  const flowersList = await controller.getAllItems();
   res.render('view', {"list": flowersList});
 })
 

@@ -80,3 +80,9 @@ ul {
 .card__name {
   font-weight: bold;
 }
+
+img {
+  width: 240px;
+  height: 417px;
+  object-fit: contain;
+}

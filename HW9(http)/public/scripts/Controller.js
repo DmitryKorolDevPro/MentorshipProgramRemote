@@ -1,24 +1,24 @@
-const middleware = require('./Middleware.js');
+const model = require('./Model.js');
 
 class Controller {
-  async getItems(id) {
-    if (id === undefined) {
-      return await middleware.getAll();
-    } else {
-      return await middleware.getOne(id)
-    }
+  async getAllItems() {
+    return await model.getAllItems();
   }
 
-  async addItem(params) {
-    return await middleware.create(params)
+  async getOneItem(id) {
+    return await model.findOneItem(id);
   }
 
-  async updateItem(params) {
-    return await middleware.update(params);
+  async addItem(id, name, url) {
+    return await model.addNewItemToTheList(id, name, url);
+  }
+
+  async updateItem(id, name, url) {
+    return await model.updateItem(id, name, url);
   }
 
   async deleteItem(id) {
-    return await middleware.delete(id);
+    return await model.deleteItem(id);
   }
 }
 

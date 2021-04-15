@@ -1,59 +1,61 @@
 const fs = require('fs').promises;
 
 class Model {
-  async getList() {
-    const database = await fs.readFile('./public/db.json');
-
+  async getAllItems() {
     try {
-      const list = JSON.parse(database).list;
-      return list;
-    } catch (err) {
-      return undefined;
+      const database = await fs.readFile('./public/db.json');
+      return JSON.parse(database).list;
+    } catch (error) {
+      console.error(`No items in the database. ${error}`);
+      return [];
     }
   }
 
-  async addNewItemToTheList(name, id, url) {
-    const list = await this.getList();
+  async addNewItemToTheList(id, name, url) {
+    const list = await this.getAllItems();
 
     list.push({
-      name: name,
       id: id,
+      name: name,
       url: url,
     });
 
-    this.saveList(list);
+    this.saveItems(list);
   }
 
   async updateItem(id, name, url) {
-    const list = await this.getList();
-    const itemToUpdate = await this.findItem(id, list);
+    const list = await this.getAllItems();
+    const index = await this.findIndexOfItem(id);
 
-    list[list.indexOf(itemToUpdate)] = {
+    list[index] = {
       id: id,
       name: name,
       url: url,
     }
 
-    this.saveList(list);
+    this.saveItems(list);
   }
 
   async deleteItem(id) {
-    const list = await this.getList();
-    const itemToDelete = await this.findItem(id, list);
+    const list = await this.getAllItems();
+    const index = await this.findIndexOfItem(id);
 
-    list.splice(list.indexOf(itemToDelete), 1);
-    this.saveList(list);
+    list.splice(index, 1);
+    this.saveItems(list);
   }
 
-  async findItem(id, list) {
-    if (list === undefined) {
-      list = await this.getList();
-    }
-
+  async findOneItem(id) {
+    const list = await this.getAllItems();
     return list.find(item => item.id === id);
   }
 
-  saveList(list) {
+  async findIndexOfItem(id) {
+    const list = await this.getAllItems();
+    const item = list.find(item => item.id === id);
+    return list.indexOf(item);
+  }
+
+  saveItems(list) {
     fs.writeFile('./public/db.json', JSON.stringify({
       list: list
     }));
