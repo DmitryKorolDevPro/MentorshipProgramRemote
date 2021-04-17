@@ -6,8 +6,8 @@ class Model {
       const database = await fs.readFile('./public/db.json');
       return JSON.parse(database).list;
     } catch (error) {
-      console.error(`No items in the database. ${error}`);
-      return [];
+      console.error(`Cannot get items from the database. ${error}`)
+      return error;
     }
   }
 
@@ -56,9 +56,13 @@ class Model {
   }
 
   saveItems(list) {
-    fs.writeFile('./public/db.json', JSON.stringify({
-      list: list
-    }));
+    try {
+      fs.writeFile('./public/db.json', JSON.stringify({
+        list: list
+      }));
+    } catch (error) {
+      console.error(`Cannot save items in the database. ${error}`);
+    }
   }
 }
 
