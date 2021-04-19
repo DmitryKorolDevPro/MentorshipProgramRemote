@@ -1,10 +1,20 @@
 const model = require('./model.js');
 class Controller {
-    getAllItems() {
-        return model.getAllinFiles();
+    async getAllInFile() {
+        return await model.getAll();
     }
 
+    async addInFile({ id, title }) {
+        return await model.addInto(id, title);
+    }
 
+    async updataItemInFile({ id, title }) {
+        return await model.updataItem(id, title);
+    }
+
+    async deleteItemInFile({ id }) {
+        return await model.deleteItem(id);
+    }
 }
 
 const controller = new Controller();
