@@ -8,9 +8,9 @@ class Controller {
         return await model.addInto(id, title);
     }
 
-    async updataItemInFile({ id, title }) {
+    async updateItemInFile({ id, title }) {
         console.log('up');
-        return await model.updataItem(id, title);
+        return await model.updateItem(id, title);
     }
 
     async deleteItemInFile({ id }) {

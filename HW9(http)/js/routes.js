@@ -25,7 +25,7 @@ const filmRoutes = (app, fs) => {
     });
 
     // CREATE
-
+    //localhost:5501/films?id=5&title=The+Great+Gatsby
     app.post('/films', async (req, res) => {
         const result = await controller.addInFile(req.query);
         if (result === 0) {
@@ -37,10 +37,10 @@ const filmRoutes = (app, fs) => {
     });
 
     // UPDATE
-    //
+    //localhost:5501/films?id=4&title=Pulp+Fiction
     app.put('/films', async (req, res) => {
         console.log('PUT');
-        const result = await controller.updataItemInFile(req.query);
+        const result = await controller.updateItemInFile(req.query);
         if (result === 0) {
             res.status(204).json({ message: `Error 204. No Content` });
         }
@@ -50,6 +50,7 @@ const filmRoutes = (app, fs) => {
     });
 
     // DELETE
+    //localhost:5501/films?id=5
     app.delete('/films', async (req, res) => {
         const result = await controller.deleteItemInFile(req.query);
         if (result === 0) {
