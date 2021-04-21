@@ -9,6 +9,7 @@ class Controller {
     }
 
     async updataItemInFile({ id, title }) {
+        console.log('up');
         return await model.updataItem(id, title);
     }
 

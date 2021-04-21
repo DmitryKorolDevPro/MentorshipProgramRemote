@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const app = express();
 const fs = require('fs');
 
@@ -10,3 +10,4 @@ const server = app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 
+// localhost:5501/films?id=4&title=Pulp+Fiction

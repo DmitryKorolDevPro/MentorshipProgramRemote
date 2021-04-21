@@ -11,7 +11,8 @@ const appRouter = (app, fs) => {
 };
 
 const filmRoutes = (app, fs) => {
-    // READ
+    // READ 
+    //localhost:5501/films
     app.get('/films', async (req, res) => {
 
         const result = await controller.getAllInFile();
@@ -24,6 +25,7 @@ const filmRoutes = (app, fs) => {
     });
 
     // CREATE
+
     app.post('/films', async (req, res) => {
         const result = await controller.addInFile(req.query);
         if (result === 0) {
@@ -35,8 +37,10 @@ const filmRoutes = (app, fs) => {
     });
 
     // UPDATE
+    //
     app.put('/films', async (req, res) => {
-        const result = await controller.addInFile(req.query);
+        console.log('PUT');
+        const result = await controller.updataItemInFile(req.query);
         if (result === 0) {
             res.status(204).json({ message: `Error 204. No Content` });
         }
