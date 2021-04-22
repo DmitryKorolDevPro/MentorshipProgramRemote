@@ -21,36 +21,20 @@ class Model {
             title: title
         });
 
-        const jsonStringify = JSON.stringify(obj, null, 2);
+        await this.save(obj);
 
-        await fs.writeFile('./db.json', jsonStringify, err => {
-            if (err) {
-                return ('Error writing file', err);
-            } else {
-                return ('Successfully wrote file!');
-            }
-        });
     }
 
     async updateItem(id, title) {
         const filmsList_updata = await this.getAll();
         const obj = JSON.parse(filmsList_updata);
-
         const itemToUpdateIndex = await this.findIndexItemById(id);
 
         const itemToUpdate = obj[itemToUpdateIndex];
         itemToUpdate.title = title;
         obj[itemToUpdateIndex] = itemToUpdate;
-        console.log('updata: ' + obj);
-        const jsonStringify = JSON.stringify(obj, null, 2);
-        await fs.writeFile('./db.json', jsonStringify, err => {
-            if (err) {
-                console.log('Error writing file', err);
-            } else {
-                console.log('Successfully wrote file!');
-            }
-        });
-        return obj;
+
+        await this.save(obj);
     }
 
     async deleteItem(id) {
@@ -59,23 +43,25 @@ class Model {
         const index = await this.findIndexItemById(id);
 
         obj.splice(index, 1);
-        const jsonStringify = JSON.stringify(obj, null, 2);
-
-        await fs.writeFile('./db.json', jsonStringify, err => {
-            if (err) {
-                console.log('Error writing file', err);
-            } else {
-                console.log('Successfully wrote file!');
-            }
-        });
+        await this.save(obj);
     }
+
     async findIndexItemById(id) {
         const filmsList = await this.getAll();
         const obj = JSON.parse(filmsList);
-        console.log('find obj ' + obj);
         const item = obj.find(item => item.id === id);
-        console.log('find item index ' + obj.indexOf(item));
         return obj.indexOf(item);
+    }
+
+    async save(obj) {
+        const jsonStringify = JSON.stringify(obj, null, 2);
+        await fs.writeFile('./db.json', jsonStringify, err => {
+            if (err) {
+                return ('Error writing file', err);
+            } else {
+                return ('Successfully wrote file!');
+            }
+        });
     }
 }
 

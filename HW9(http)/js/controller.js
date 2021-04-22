@@ -9,7 +9,6 @@ class Controller {
     }
 
     async updateItemInFile({ id, title }) {
-        console.log('up');
         return await model.updateItem(id, title);
     }
 
